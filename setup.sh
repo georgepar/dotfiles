@@ -1,4 +1,5 @@
 bash install_packages.sh
+bash setup_cheat.sh
 bash setup_anaconda.sh
 bash setup_git.sh
 bash setup_vim.sh
