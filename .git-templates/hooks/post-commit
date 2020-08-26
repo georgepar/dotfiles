@@ -1,0 +1,5 @@
+#!/bin/sh
+# Copy last commit hash to clipboard on commit
+git --no-pager log -1
+# Add other post-commit hooks
+
