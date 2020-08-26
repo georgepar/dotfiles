@@ -1,7 +1,7 @@
 # dotfiles
 My dotfiles and the relevant setup scripts
 
-Run 
+To setup everything, run 
 ```
 bash setup.sh
 ```
