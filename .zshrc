@@ -1,7 +1,6 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-echo $USER
 
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
@@ -11,10 +10,10 @@ fi
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/geopar/.oh-my-zsh"
+export ZSH="/home/$USER/.oh-my-zsh"
 
 # Would you like to use another custom folder than $ZSH/custom?
-ZSH_CUSTOM="/home/geopar/.oh-my-zsh/custom"
+ZSH_CUSTOM="/home/$USER/.oh-my-zsh/custom"
 
 
 # Set name of the theme to load --- if set to "random", it will
@@ -79,40 +78,40 @@ ZSH_THEME="powerlevel10k"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-	git
-	alias-finder
-       	autopep8
-       	catimg
-       	colored-man-pages
-       	colorize
-       	command-not-found
-       	copybuffer
-       	copydir
-       	copyfile
-       	direnv
-	extract
-	fancy-ctrl-z
-	git-extras
-	git-prompt
-	gitignore
-	history
-	jsontools
-	last-working-dir
-	magic-enter
-	percol
-	pep8
-	pip
-	pylint
-	python
-	safe-paste
-	sprunge
-       	sudo
-	taskwarrior
-	timer
-       	tmux
-       	web-search
-       	zsh-interactive-cd
-       	zsh-navigation-tools
+    git
+    alias-finder
+    autopep8
+    catimg
+    colored-man-pages
+    colorize
+    command-not-found
+    copybuffer
+    copydir
+    copyfile
+    direnv
+    extract
+    fancy-ctrl-z
+    git-extras
+    git-prompt
+    gitignore
+    history
+    jsontools
+    last-working-dir
+    magic-enter
+    percol
+    pep8
+    pip
+    pylint
+    python
+    safe-paste
+    sprunge
+    sudo
+    taskwarrior
+    timer
+    tmux
+    web-search
+    zsh-interactive-cd
+    zsh-navigation-tools
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -133,14 +132,14 @@ fi
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/geopar/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/home/$USER/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/home/geopar/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/geopar/anaconda3/etc/profile.d/conda.sh"
+    if [ -f "/home/$USER/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/$USER/anaconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/home/geopar/anaconda3/bin:$PATH"
+        export PATH="/home/$USER/anaconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup

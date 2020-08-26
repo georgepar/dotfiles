@@ -1,10 +1,11 @@
 cp .vimrc $HOME/.vimrc
 cp -r .vim $HOME/
 
-vim +qa
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+vim +PluginInstall +qall
 
 pushd $HOME/.vim/bundle/YouCompleteMe/
 
-python install.py --clang-completer
+$HOME/anaconda3/bin/python install.py --clang-completer
 
 popd

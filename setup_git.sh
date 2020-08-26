@@ -1,2 +1,2 @@
 cp .gitconfig $HOME/
-cp .git-templates $HOME/
+cp -r .git-templates $HOME/
