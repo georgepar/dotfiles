@@ -1,5 +1,5 @@
-cp .vimrc $HOME/.vimrc
-cp -r .vim $HOME/
+ln -s .vimrc $HOME/.vimrc
+ln -s .vim $HOME/.vim
 
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 vim +PluginInstall +qall
