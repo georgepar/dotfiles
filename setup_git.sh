@@ -1,2 +1,2 @@
-ln -s .gitconfig $HOME/.gitconfig
-ln -s .git-templates $HOME/.git-templates
+ln -s $(pwd)/.gitconfig $HOME/.gitconfig
+ln -s $(pwd)/.git-templates $HOME/.git-templates
