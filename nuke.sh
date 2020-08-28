@@ -1,6 +1,7 @@
 rm -rf $HOME/.vim
 rm $HOME/.vimrc
 rm -rf $HOME/.oh-my-zsh
+rm $HOME/.config/flake8
 rm $HOME/.zshrc
 rm $HOME/.taskrc
 rm -rf $HOME/anaconda3
