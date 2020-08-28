@@ -83,20 +83,6 @@ let g:ycm_semantic_triggers = {
 			\   'python': [ 're!\w{2}' ]
 			\ }
 
-
-"python with virtualenv support
-py3 << EOF
-import os
-import sys
-if 'VIRTUAL_ENV' in os.environ:
-    project_base_dir = os.environ['VIRTUAL_ENV']
-    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-    with open(activate_this, 'r') as fd:
-        code = fd.read()
-    exec(code, dict(__file__=activate_this))
-EOF
-
-
 let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 
 let g:ctrlp_map = '<c-p>'
@@ -117,4 +103,3 @@ let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standar
 
 autocmd VimEnter * NERDTree
 autocmd VimEnter * wincmd p
-
