@@ -1,11 +1,8 @@
+mkdir -p $HOME/.config/coc
 ln -s $(pwd)/.vimrc $HOME/.vimrc
 ln -s $(pwd)/.vim $HOME/.vim
 
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-vim +PluginInstall +qall
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-pushd $HOME/.vim/bundle/YouCompleteMe/
-
-$HOME/opt/anaconda3/bin/python install.py --clang-completer
-
-popd
+vim +PlugInstall +qall
+vim -c 'CocInstall -sync coc-python coc-clangd coc-texlab coc-json coc-html|qall'
