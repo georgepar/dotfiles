@@ -5,5 +5,5 @@
     "python.linting.pylintEnabled": false,
     "python.linting.enabled": false,
     "python.analysis.diagnosticEnabled": false,
-    "snippets.userSnippetsDirectory": "~/.vim/snippets/ultisnips/"
+    "snippets.userSnippetsDirectory": "~/.vim/snippets/"
 }
