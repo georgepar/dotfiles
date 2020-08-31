@@ -4,5 +4,6 @@
     "python.condaPath": "~/opt/anaconda3/bin/conda",
     "python.linting.pylintEnabled": false,
     "python.linting.enabled": false,
-    "python.analysis.diagnosticEnabled": false
+    "python.analysis.diagnosticEnabled": false,
+    "snippets.userSnippetsDirectory": "~/.vim/snippets/ultisnips/"
 }
