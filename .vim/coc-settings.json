@@ -1,0 +1,8 @@
+{
+    "python.formatting.provider": "black",
+    "python.jediEnabled": true,
+    "python.condaPath": "~/opt/anaconda3/bin/conda",
+    "python.linting.pylintEnabled": false,
+    "python.linting.enabled": false,
+    "python.analysis.diagnosticEnabled": false
+}

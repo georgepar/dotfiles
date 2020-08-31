@@ -3,50 +3,25 @@ filetype off                  " required
 
 let g:ale_completion_enabled = 0
 
-" function! BuildYCM(info)
-"     if a:info.status == 'installed' || a:info.force
-"        ~/opt/anaconda3/bin/python install.py --clang-completer
-"    endif
-" endfunction
-
-
 syntax enable
-" colorscheme Monokai
-
-" set the runtime path to include Vundle and initialize
-" set rtp+=~/.vim/bundle/Vundle.vim/
-" call vundle#begin()
-
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
 
 call plug#begin('~/.vim/plugged')
 
-" let Vundle manage Vundle, required
-" Plugin 'VundleVim/Vundle.vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'dense-analysis/ale'
+Plug 'frazrepo/vim-rainbow'
+Plug 'jiangmiao/auto-pairs'
+Plug 'neoclide/coc.nvim',  {'branch': 'release'}
+Plug 'patstockwell/vim-monokai-tasty'
+Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdcommenter'
 Plug 'tmhedberg/SimpylFold'
 Plug 'vim-scripts/indentpython.vim'
-" Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
-Plug 'neoclide/coc.nvim',  {'branch': 'release'}
-
-" Plugin 'vim-syntastic/syntastic'
-" Plugin 'nvie/vim-flake8'
-Plug 'dense-analysis/ale'
-Plug 'scrooloose/nerdtree'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'tpope/vim-fugitive'
-" Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plug 'vim-airline/vim-airline'
-Plug 'patstockwell/vim-monokai-tasty'
-" add all your plugins here (note older versions of Vundle
-" used Bundle instead of Plugin)
+" Plug 'tpope/vim-fugitive'
 
-" ...
 call plug#end()
-
-" All of your Plugins must be added before the following line
-" call vundle#end()            " required
-" filetype plugin indent on    " required
 
 
 " Colorscheme
@@ -126,14 +101,20 @@ let g:ale_fixers = {
     \    'python': ['black', 'add_blank_lines_for_python_control_statements', 'isort']
     \}
 
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
 
-" YCM
-let g:ycm_python_binary_path = 'python'
-let g:ycm_autoclose_preview_window_after_completion=1
-map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-let g:ycm_semantic_triggers = {
-    \   'python': [ 're!\w{2}' ]
-    \ }
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 
@@ -152,6 +133,21 @@ let g:ctrlp_custom_ignore = {
 
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
+nmap <silent> <leader>cc <Plug>NERDCommenterToggle
+nmap <silent> <leader>c<space> <Plug>NERDCommenterComment
+
+let g:NERDSpaceDelims = 1
+let g:NERDCompactSexyComs = 1
+let g:NERDCommentEmptyLines = 1
+let g:NERDTrimTrailingWhitespace = 1
+let g:NERDToggleCheckAllLines = 1
+
+" " Your vimrc
+" function! GitStatus()
+  " let [a,m,r] = GitGutterGetHunkSummary()
+  " return printf('+%d ~%d -%d', a, m, r)
+" endfunction
+" set statusline+=%{GitStatus()}
 
 autocmd VimEnter * NERDTree
 autocmd VimEnter * wincmd p
