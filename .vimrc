@@ -14,6 +14,7 @@ Plug 'frazrepo/vim-rainbow'
 Plug 'jiangmiao/auto-pairs'
 Plug 'neoclide/coc.nvim',  {'branch': 'release'}
 Plug 'patstockwell/vim-monokai-tasty'
+Plug 'arcticicestudio/nord-vim'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tmhedberg/SimpylFold'
@@ -24,11 +25,19 @@ Plug 'vim-airline/vim-airline'
 call plug#end()
 
 
-" Colorscheme
+" Airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'short_path'
 let g:airline_powerline_fonts = 1
-let g:vim_monokai_tasty_italic = 1
-colorscheme vim-monokai-tasty
-let g:airline_theme='monokai_tasty'
+
+
+" Colorscheme
+colorscheme nord
+let g:airline_theme = 'nord'
+" colorscheme vim-monokai-tasty
+" let g:airline_theme='monokai_tasty'
+" let g:vim_monokai_tasty_italic = 1
+
 
 
 " Various settings for better editing
@@ -57,18 +66,10 @@ if (empty($TMUX))
 endif
 
 
-"split navigations
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-
 " Enable folding
 set foldmethod=indent
 set foldlevel=99
 
-" Enable folding with the spacebar
-noremap <space> za
 
 let g:SimpylFold_docstring_preview=1
 
@@ -101,6 +102,57 @@ let g:ale_fixers = {
     \    'python': ['black', 'add_blank_lines_for_python_control_statements', 'isort']
     \}
 
+let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
+
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_custom_ignore = {
+    \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+    \ 'file': '\v\.(exe|so|dll)$',
+    \ 'link': 'some_bad_symbolic_links',
+    \ }
+
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+
+let g:NERDSpaceDelims = 1
+let g:NERDCompactSexyComs = 1
+let g:NERDCommentEmptyLines = 1
+let g:NERDTrimTrailingWhitespace = 1
+let g:NERDToggleCheckAllLines = 1
+
+
+"split navigations
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+nnoremap Q q
+nnoremap q <Nop>
+
+" Buffer manipulation
+nnoremap <silent> <leader>n :bn<cr>
+nnoremap <silent> <leader>p :bp<cr>
+nnoremap <silent> <leader>d :bd<cr>
+nnoremap <silent> <leader>q :w\|bd<cr>
+nnoremap <silent> qq :q<cr>
+nnoremap <silent> <C-s> :w<cr>
+nnoremap <silent> wq :wqa! <cr>
+
+
+" Enable folding with the spacebar
+nnoremap <silent> <C-F> za
+
+nnoremap <silent> <C-t> :NERDTreeToggle<CR>
+
+nmap <silent> <leader>/ <Plug>NERDCommenterToggle
+nmap <silent> <leader>c<space> <Plug>NERDCommenterComment
+
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
@@ -120,32 +172,6 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 let g:coc_snippet_next = '<tab>'
 
 
-let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
-
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_working_path_mode = 'ra'
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
-set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
-
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-    \ 'file': '\v\.(exe|so|dll)$',
-    \ 'link': 'some_bad_symbolic_links',
-    \ }
-
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
-
-nmap <silent> <leader>cc <Plug>NERDCommenterToggle
-nmap <silent> <leader>c<space> <Plug>NERDCommenterComment
-
-let g:NERDSpaceDelims = 1
-let g:NERDCompactSexyComs = 1
-let g:NERDCommentEmptyLines = 1
-let g:NERDTrimTrailingWhitespace = 1
-let g:NERDToggleCheckAllLines = 1
-
 " " Your vimrc
 " function! GitStatus()
   " let [a,m,r] = GitGutterGetHunkSummary()
@@ -153,5 +179,5 @@ let g:NERDToggleCheckAllLines = 1
 " endfunction
 " set statusline+=%{GitStatus()}
 
-autocmd VimEnter * NERDTree
-autocmd VimEnter * wincmd p
+" autocmd VimEnter * NERDTree
+" autocmd VimEnter * wincmd p
