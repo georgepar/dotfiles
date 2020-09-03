@@ -25,6 +25,7 @@ Plug 'vim-airline/vim-airline'
 call plug#end()
 
 
+set statusline^=%{coc#status()}
 " Airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'short_path'
@@ -143,15 +144,29 @@ nnoremap <silent> <leader>q :w\|bd<cr>
 nnoremap <silent> qq :q<cr>
 nnoremap <silent> <C-s> :w<cr>
 nnoremap <silent> wq :wqa! <cr>
+nnoremap <silent> <leader>h :call <SID>show_documentation()<CR>
 
+function! s:show_documentation()
+    if &filetype == 'vim'
+        execute 'h '.expand('<cword>')
+    else
+        call CocAction('doHover')
+    endif
+endfunction
 
 " Enable folding with the spacebar
 nnoremap <silent> <C-F> za
+nmap <silent> <leader>g <Plug>(coc-definition)
+
 
 nnoremap <silent> <C-t> :NERDTreeToggle<CR>
 
 nmap <silent> <leader>/ <Plug>NERDCommenterToggle
 nmap <silent> <leader>c<space> <Plug>NERDCommenterComment
+
+nnoremap ,v :vs<space>
+nnoremap ,b :tabnew<space>
+nnoremap ,n :split<space>
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
