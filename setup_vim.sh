@@ -1,6 +1,6 @@
 mkdir -p $HOME/.config/coc
-ln -s $(pwd)/.vimrc $HOME/.vimrc
-ln -s $(pwd)/.vim $HOME/.vim
+ln -s $(pwd)/vim/.vimrc $HOME/.vimrc
+ln -s $(pwd)/vim/.vim $HOME/.vim
 
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
