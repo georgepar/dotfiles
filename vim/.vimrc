@@ -1,29 +1,52 @@
-set nocompatible              " required
-filetype off                  " required
+" My vimrc
+let mapleader= " "
+let python_highlight_all=1
+highlight BadWhitespace ctermbg=red guibg=darkred
+" Enable folding
+set foldmethod=indent
+set foldlevel=99
+
+if !has('nvim') && &ttimeoutlen == -1
+  set ttimeout
+  set ttimeoutlen=100
+endif
+
+set termguicolors
+
+" Indentation
+set textwidth=99
+
+au BufNewFile,BufRead *.js, *.html, *.css
+    \ set tabstop=2
+    \| set softtabstop=2
+    \| set shiftwidth=2
+
+" Flag extra whitespace
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 
 let g:ale_completion_enabled = 0
 
-syntax enable
-
 call plug#begin('~/.vim/plugged')
 
-Plug 'airblade/vim-gitgutter'
+Plug 'vim-scripts/RltvNmbr.vim'
+Plug 'liuchengxu/vim-better-default'
+Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!']  }
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'dense-analysis/ale'
 Plug 'frazrepo/vim-rainbow'
 Plug 'jiangmiao/auto-pairs'
-Plug 'neoclide/coc.nvim',  {'branch': 'release'}
-Plug 'patstockwell/vim-monokai-tasty'
+Plug 'neoclide/coc.nvim',  {'branch': 'stable'}
 Plug 'arcticicestudio/nord-vim'
 Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
 Plug 'tmhedberg/SimpylFold'
 Plug 'vim-scripts/indentpython.vim'
 Plug 'vim-airline/vim-airline'
-" Plug 'tpope/vim-fugitive'
+Plug 'mbbill/undotree'
 
 call plug#end()
-
 
 set statusline^=%{coc#status()}
 " Airline
@@ -35,64 +58,8 @@ let g:airline_powerline_fonts = 1
 " Colorscheme
 colorscheme nord
 let g:airline_theme = 'nord'
-" colorscheme vim-monokai-tasty
-" let g:airline_theme='monokai_tasty'
-" let g:vim_monokai_tasty_italic = 1
-
-
-
-" Various settings for better editing
-set nu
-set splitbelow
-set splitright
-set encoding=utf-8
-let mapleader= " "
-let python_highlight_all=1
-syntax on
-highlight BadWhitespace ctermbg=red guibg=darkred
-
-
-" Tmux + nvim color fixes
-if (empty($TMUX))
-  if (has("nvim"))
-    "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
-    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-  endif
-  "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-  "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-  " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
-  if (has("termguicolors"))
-    set termguicolors
-  endif
-endif
-
-
-" Enable folding
-set foldmethod=indent
-set foldlevel=99
-
 
 let g:SimpylFold_docstring_preview=1
-
-
-" Indentation
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set textwidth=99
-set expandtab
-set autoindent
-set fileformat=unix
-"au BufNewFile,BufRead *.py, *.pyx set fileformat=unix
-
-au BufNewFile,BufRead *.js, *.html, *.css
-    \ set tabstop=2
-    \| set softtabstop=2
-    \| set shiftwidth=2
-
-" Flag extra whitespace
-au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
-
 
 " ALE
 let g:ale_echo_msg_format = '%linter%: %s'
@@ -120,31 +87,22 @@ let g:ctrlp_custom_ignore = {
 
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
-let g:NERDSpaceDelims = 1
-let g:NERDCompactSexyComs = 1
-let g:NERDCommentEmptyLines = 1
-let g:NERDTrimTrailingWhitespace = 1
-let g:NERDToggleCheckAllLines = 1
+let g:which_key_map = {}
 
+autocmd! User vim-which-key call which_key#register(',', 'g:which_key_map')
 
-"split navigations
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
+ nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
+set timeoutlen=500
+
 
 nnoremap Q q
 nnoremap q <Nop>
 
-" Buffer manipulation
-nnoremap <silent> <leader>n :bn<cr>
-nnoremap <silent> <leader>p :bp<cr>
-nnoremap <silent> <leader>d :bd<cr>
-nnoremap <silent> <leader>q :w\|bd<cr>
 nnoremap <silent> qq :q<cr>
 nnoremap <silent> <C-s> :w<cr>
 nnoremap <silent> wq :wqa! <cr>
 nnoremap <silent> <leader>h :call <SID>show_documentation()<CR>
+nmap <silent> <leader>r <Plug>(coc-rename)
 
 function! s:show_documentation()
     if &filetype == 'vim'
@@ -154,15 +112,12 @@ function! s:show_documentation()
     endif
 endfunction
 
-" Enable folding with the spacebar
 nnoremap <silent> <C-F> za
 nmap <silent> <leader>g <Plug>(coc-definition)
 
-
 nnoremap <silent> <C-t> :NERDTreeToggle<CR>
 
-nmap <silent> <leader>/ <Plug>NERDCommenterToggle
-nmap <silent> <leader>c<space> <Plug>NERDCommenterComment
+nmap <silent> <leader>/ gcc
 
 nnoremap ,v :vs<space>
 nnoremap ,b :tabnew<space>
@@ -186,13 +141,4 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 let g:coc_snippet_next = '<tab>'
 
-
-" " Your vimrc
-" function! GitStatus()
-  " let [a,m,r] = GitGutterGetHunkSummary()
-  " return printf('+%d ~%d -%d', a, m, r)
-" endfunction
-" set statusline+=%{GitStatus()}
-
-" autocmd VimEnter * NERDTree
-" autocmd VimEnter * wincmd p
+autocmd VimEnter * RainbowLoad
