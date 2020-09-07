@@ -196,7 +196,7 @@ let g:which_key_map['b'] = {
 nnoremap <silent> <Leader>gb :Gblame<CR>
 nnoremap <silent> <Leader>gC :BCommits<CR>
 nnoremap <silent> <Leader>gf :GFiles<CR>
-nnoremap <silent> <Leader>gc :Gcommit<CR>
+nnoremap <silent> <Leader>gc :Git commit -sv<CR>
 nnoremap <silent> <Leader>gd :Gdiff<CR>
 nnoremap <silent> <Leader>ge :Gedit<CR>
 nnoremap <silent> <Leader>gl :Glog<CR>
