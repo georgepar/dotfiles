@@ -38,6 +38,48 @@ function! s:goto_implementation() abort
 endfunction
 
 
+function! NextHunkAllBuffers()
+  let line = line('.')
+  GitGutterNextHunk
+  if line('.') != line
+    return
+  endif
+
+  let bufnr = bufnr('')
+  while 1
+    bnext
+    if bufnr('') == bufnr
+      return
+    endif
+    if !empty(GitGutterGetHunks())
+      1
+      GitGutterNextHunk
+      return
+    endif
+  endwhile
+endfunction
+
+function! PrevHunkAllBuffers()
+  let line = line('.')
+  GitGutterPrevHunk
+  if line('.') != line
+    return
+  endif
+
+  let bufnr = bufnr('')
+  while 1
+    bprevious
+    if bufnr('') == bufnr
+      return
+    endif
+    if !empty(GitGutterGetHunks())
+      normal! G
+      GitGutterPrevHunk
+      return
+    endif
+  endwhile
+endfunction
+
 nnoremap <silent> <Leader>q  :q<CR>
 nnoremap <silent> <Leader>Q  :qa!<CR>
 
@@ -158,9 +200,9 @@ nnoremap <silent> <Leader>gc :Gcommit<CR>
 nnoremap <silent> <Leader>gd :Gdiff<CR>
 nnoremap <silent> <Leader>ge :Gedit<CR>
 nnoremap <silent> <Leader>gl :Glog<CR>
-nnoremap <silent> <Leader>gr :Gread<CR>
+nnoremap <silent> <Leader>gu :GitGutterUndoHunk<CR>
+nnoremap <silent> <Leader>ga :GitGutterStageHunk<CR>
 nnoremap <silent> <Leader>gs :Gstatus<CR>
-nnoremap <silent> <Leader>gw :Gwrite<CR>
 nnoremap <silent> <Leader>gP :Git pull<CR>
 nnoremap <silent> <Leader>gp :Git push<CR>
 
@@ -175,9 +217,10 @@ let g:which_key_map['g'] = {
       \ 'l' : 'fugitive-log'               ,
       \ 'r' : 'fugitive-read'              ,
       \ 's' : 'fugitive-status'            ,
-      \ 'w' : 'fugitive-write'             ,
       \ 'p' : 'fugitive-push'              ,
       \ 'P' : 'fugitive-pull'              ,
+      \ 'u' : 'undo-hunk'                  ,
+      \ 'a' : 'stage-hunk'                 ,
       \ }
 
 
@@ -212,6 +255,12 @@ let g:which_key_map['f'] = {
       \ 'H' : 'open-recent'                ,
       \ 'w' : 'open-windows'               ,
       \ }
+
+nmap <leader>[ :call NextHunkAllBuffers()<CR>
+nmap <leader>] :call PrevHunkAllBuffers()<CR>
+
+let g:which_key_map['['] = 'previous-hunk'
+let g:which_key_map[']'] = 'next-hunk'
 
 
 autocmd! User vim-which-key call which_key#register('<Space>', 'g:which_key_map')

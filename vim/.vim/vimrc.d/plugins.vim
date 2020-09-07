@@ -3,6 +3,7 @@ let g:ale_completion_enabled = 0
 call plug#begin('~/.vim/plugged')
 
 Plug 'vim-scripts/RltvNmbr.vim'
+Plug 'airblade/vim-gitgutter'
 Plug 'liuchengxu/vim-better-default'
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!']  }
 " Plug 'ctrlpvim/ctrlp.vim'
@@ -14,6 +15,7 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'neoclide/coc.nvim',  {'branch': 'stable'}
 Plug 'arcticicestudio/nord-vim'
 Plug 'scrooloose/nerdtree'
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
