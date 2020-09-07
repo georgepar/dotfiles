@@ -5,3 +5,5 @@ source ~/.vim/vimrc.d/colorscheme.vim
 source ~/.vim/vimrc.d/helpers.vim
 source ~/.vim/vimrc.d/remap.vim
 source ~/.vim/vimrc.d/leader.vim
+
+" End vimrc

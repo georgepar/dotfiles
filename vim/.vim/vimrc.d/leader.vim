@@ -150,20 +150,31 @@ let g:which_key_map['b'] = {
     \ }
 
 
+nnoremap <silent> <Leader>b :Gblame<CR>
+nnoremap <silent> <Leader>C :BCommits<CR>
+nnoremap <silent> <Leader>c :Gcommit<CR>
+nnoremap <silent> <Leader>d :Gdiff<CR>
+nnoremap <silent> <Leader>e :Gedit<CR>
+nnoremap <silent> <Leader>l :Glog<CR>
+nnoremap <silent> <Leader>r :Gread<CR>
+nnoremap <silent> <Leader>s :Gstatus<CR>
+nnoremap <silent> <Leader>w :Gwrite<CR>
+nnoremap <silent> <Leader>P :Git pull<CR>
+nnoremap <silent> <Leader>p :Git push<CR>
 " Version control
 let g:which_key_map['g'] = {
       \ 'name' : '+git/version-control' ,
-      \ 'b' : ['Gblame'                 , 'fugitive-blame']             ,
-      \ 'c' : ['BCommits'               , 'commits-for-current-buffer'] ,
-      \ 'C' : ['Gcommit'                , 'fugitive-commit']            ,
-      \ 'd' : ['Gdiff'                  , 'fugitive-diff']              ,
-      \ 'e' : ['Gedit'                  , 'fugitive-edit']              ,
-      \ 'l' : ['Glog'                   , 'fugitive-log']               ,
-      \ 'r' : ['Gread'                  , 'fugitive-read']              ,
-      \ 's' : ['Gstatus'                , 'fugitive-status']            ,
-      \ 'w' : ['Gwrite'                 , 'fugitive-write']             ,
-      \ 'p' : ['Git push'               , 'fugitive-push']              ,
-      \ 'y' : ['Goyo'                   , 'goyo-mode']                  ,
+      \ 'b' : 'fugitive-blame']             ,
+      \ 'c' : 'commits-for-current-buffer'] ,
+      \ 'C' : 'fugitive-commit']            ,
+      \ 'd' : 'fugitive-diff']              ,
+      \ 'e' : 'fugitive-edit']              ,
+      \ 'l' : 'fugitive-log']               ,
+      \ 'r' : 'fugitive-read']              ,
+      \ 's' : 'fugitive-status']            ,
+      \ 'w' : 'fugitive-write']             ,
+      \ 'p' : 'fugitive-push']              ,
+      \ 'P' : 'fugitive-pull']              ,
       \ }
 
 
