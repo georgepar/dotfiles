@@ -1,3 +1,4 @@
+" Split in different files
 source ~/.vim/vimrc.d/configuration.vim
 source ~/.vim/vimrc.d/plugins.vim
 source ~/.vim/vimrc.d/colorscheme.vim
