@@ -1,3 +1,5 @@
+sudo add-apt-repository ppa:jonathonf/vim
+
 sudo apt-get install -y \
     git git-lfs curl wget zsh build-essential cmake \
     imagemagick direnv unzip tmux taskwarrior vim neovim htop

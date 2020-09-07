@@ -150,31 +150,67 @@ let g:which_key_map['b'] = {
     \ }
 
 
-nnoremap <silent> <Leader>b :Gblame<CR>
-nnoremap <silent> <Leader>C :BCommits<CR>
-nnoremap <silent> <Leader>c :Gcommit<CR>
-nnoremap <silent> <Leader>d :Gdiff<CR>
-nnoremap <silent> <Leader>e :Gedit<CR>
-nnoremap <silent> <Leader>l :Glog<CR>
-nnoremap <silent> <Leader>r :Gread<CR>
-nnoremap <silent> <Leader>s :Gstatus<CR>
-nnoremap <silent> <Leader>w :Gwrite<CR>
-nnoremap <silent> <Leader>P :Git pull<CR>
-nnoremap <silent> <Leader>p :Git push<CR>
 " Version control
+nnoremap <silent> <Leader>gb :Gblame<CR>
+nnoremap <silent> <Leader>gC :BCommits<CR>
+nnoremap <silent> <Leader>gf :GFiles<CR>
+nnoremap <silent> <Leader>gc :Gcommit<CR>
+nnoremap <silent> <Leader>gd :Gdiff<CR>
+nnoremap <silent> <Leader>ge :Gedit<CR>
+nnoremap <silent> <Leader>gl :Glog<CR>
+nnoremap <silent> <Leader>gr :Gread<CR>
+nnoremap <silent> <Leader>gs :Gstatus<CR>
+nnoremap <silent> <Leader>gw :Gwrite<CR>
+nnoremap <silent> <Leader>gP :Git pull<CR>
+nnoremap <silent> <Leader>gp :Git push<CR>
+
 let g:which_key_map['g'] = {
       \ 'name' : '+git/version-control' ,
-      \ 'b' : 'fugitive-blame']             ,
-      \ 'c' : 'commits-for-current-buffer'] ,
-      \ 'C' : 'fugitive-commit']            ,
-      \ 'd' : 'fugitive-diff']              ,
-      \ 'e' : 'fugitive-edit']              ,
-      \ 'l' : 'fugitive-log']               ,
-      \ 'r' : 'fugitive-read']              ,
-      \ 's' : 'fugitive-status']            ,
-      \ 'w' : 'fugitive-write']             ,
-      \ 'p' : 'fugitive-push']              ,
-      \ 'P' : 'fugitive-pull']              ,
+      \ 'b' : 'fugitive-blame'             ,
+      \ 'c' : 'commits-for-current-buffer' ,
+      \ 'C' : 'fugitive-commit'            ,
+      \ 'd' : 'fugitive-diff'              ,
+      \ 'f' : 'fzf-git-files'              ,
+      \ 'e' : 'fugitive-edit'              ,
+      \ 'l' : 'fugitive-log'               ,
+      \ 'r' : 'fugitive-read'              ,
+      \ 's' : 'fugitive-status'            ,
+      \ 'w' : 'fugitive-write'             ,
+      \ 'p' : 'fugitive-push'              ,
+      \ 'P' : 'fugitive-pull'              ,
+      \ }
+
+
+nnoremap <silent> <leader>ff :Files<CR>
+nmap <leader>fb :Buffers<CR>
+nmap <leader>fc :Commits<CR>
+nmap <leader>fC :BCommits<CR>
+nmap <leader>ft :BTags<CR>
+nmap <leader>fT :Tags<CR>
+nmap <leader>fr :RG<CR>
+nmap <leader>fR :Rg<CR>
+nmap <leader>fg :GFiles<CR>
+nmap <leader>fG :GFiles?<CR>
+nmap <leader>fh :History/<CR>
+nmap <leader>fH :History<CR>
+nmap <leader>fw :Windows<CR>
+
+
+let g:which_key_map['f'] = {
+      \ 'name' : '+fzf-search'             ,
+      \ 'b' : 'search-buffers'             ,
+      \ 'f' : 'search-files'               ,
+      \ 'c' : 'show-commits'               ,
+      \ 'C' : 'show-buffer-commits'        ,
+      \ 't' : 'show-buffer-ctags'          ,
+      \ 'T' : 'show-project-ctags'         ,
+      \ 'r' : 'search-project-interactive' ,
+      \ 'R' : 'search-project'             ,
+      \ 'g' : 'git-ls-files'               ,
+      \ 'G' : 'git-status'                 ,
+      \ 'h' : 'search-history'             ,
+      \ 'H' : 'open-recent'                ,
+      \ 'w' : 'open-windows'               ,
       \ }
 
 
