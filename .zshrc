@@ -168,8 +168,7 @@ alias v="$VISUAL"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-
-#alias vim=nvim
+alias vim=/usr/bin/vim
 
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
 
