@@ -1,2 +1,4 @@
-.vim/bundle
-.vim/plugged
+vim/.vim/bundle
+vim/.vim/plugged
+node_modules/
+package-lock.json
