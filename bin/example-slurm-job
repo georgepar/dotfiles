@@ -1,4 +1,31 @@
-cat > $1 <<- 'EOF'
+usage() {
+    echo "Generate example slurm job. Usage:"
+    echo -e '\texample-slurm-job JOB_NAME [COMMAND_TO_RUN]'
+    echo "Example:"
+    echo -e '\texample-slurm-job train-mnist python train_mnist.py --lr 0.1'
+}
+
+# if less than two arguments supplied, display usage
+if [  $# -le 1 ]
+then
+	usage
+	exit 1
+fi
+
+# check whether user had supplied -h or --help . If yes display usage
+if [[ $1 == "--help" ||  $1 == "-h" ]]
+then
+	usage
+	exit 0
+fi
+
+JOB_NAME=$1
+shift
+
+DEFAULT_COMMAND="python test.py"
+COMMAND=${@-$DEFAULT_COMMAND}
+
+cat > ${JOB_NAME}.sh <<- EOF
 #!/bin/bash
 
 ####################################
@@ -8,25 +35,25 @@ cat > $1 <<- 'EOF'
 #                                  #
 ####################################
 
-#SBATCH --job-name=test_job    # DO NOT FORGET TO CHANGE THIS
-#SBATCH --output=test_job.%j.out # DO NOT FORGET TO CHANGE THIS. the job stdout will be dumped here. (%j expands to jobId).
-#SBATCH --error=test_job.%j.err # DO NOT FORGET TO CHANGE THIS. the job stdout will be dumped here. (%j expands to jobId).
-#SBATCH --ntasks=1     # How many times the command will run. Leave this to 1 unless you know what you are doing
-#SBATCH --nodes=1     # The task will break in so many nodes. Use this if you need many GPUs
-#SBATCH --gres=gpu:1 # GPUs per node to be allocated
-#SBATCH --ntasks-per-node=1     # Same as ntasks
-#SBATCH --cpus-per-task=1     # If you need multithreading
-#SBATCH --time=0:01:00   # HH:MM:SS Estimated time the job will take. It will be killed if it exceeds the time limit
-#SBATCH --mem=1G   # memory to be allocated per NODE
-#SBATCH --partition=gpu    # gpu: Job will run on one or more of the nodes in gpu partition. ml: job will run on the ml node
-#SBATCH --account=pa181004    # DO NOT CHANGE THIS
+#SBATCH --job-name=$JOB_NAME
+#SBATCH --output=$JOB_NAME.%j.out  # the job stdout will be dumped here. (%j expands to jobId).
+#SBATCH --error=$JOB_NAME.%j.err   # the job stdout will be dumped here. (%j expands to jobId).
+#SBATCH --ntasks=1                 # How many times the command will run. Leave this to 1 unless you know what you are doing
+#SBATCH --ntasks-per-node=1        # Same as ntasks
+#SBATCH --nodes=1                  # The task will break in so many nodes. Use this if you need distributed training
+#SBATCH --gres=gpu:1               # CHANGE THIS: GPUs per node to be allocated
+#SBATCH --cpus-per-task=1          # CHANGE THIS: If you need multithreading
+#SBATCH --time=0:01:00             # CHANGE THIS: HH:MM:SS Estimated time the job will take. It will be killed if it exceeds the time limit
+#SBATCH --mem=12G                  # CHANGE THIS: memory to be allocated per NODE
+#SBATCH --partition=gpu            # gpu: Job will run on one or more of the nodes in gpu partition. ml: job will run on the ml node
+#SBATCH --account=pa181004         # DO NOT CHANGE THIS
 
 export I_MPI_FABRICS=shm:dapl
 
-if [ x$SLURM_CPUS_PER_TASK == x ]; then
+if [ x\$SLURM_CPUS_PER_TASK == x ]; then
   export OMP_NUM_THREADS=1
 else
-  export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+  export OMP_NUM_THREADS=\$SLURM_CPUS_PER_TASK
 fi
 
 
@@ -34,7 +61,7 @@ fi
 module purge            # clean up loaded modules
 
 # load necessary modules
-module use ${HOME}/modulefiles
+module use \${HOME}/modulefiles
 module load gnu/8.3.0
 module load intel/18.0.5
 module load intelmpi/2018.5
@@ -45,6 +72,10 @@ module load slp/1.3.1
 
 
 ## RUN YOUR PROGRAM ##
-srun python test.py
+srun $COMMAND
 
 EOF
+
+echo
+echo "$JOB_NAME.sh has been generated."
+echo "Do not forget to adjust your computing requirements"
