@@ -17,3 +17,11 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}"  ] && printf %s "${HOME}/.nvm" || p
 
 nvm install node
 npm install -g yarn neovim
+
+git clone https://github.com/jerome-pouiller/reredirect/ /tmp/reredirect
+pushd /tmp/reredicect
+make
+cp reredicect $HOME/opt/bin/
+cp relink $HOME/opt/bin
+popd
+rm -rf /tmp/reredirect
