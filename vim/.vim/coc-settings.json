@@ -1,9 +1,11 @@
 {
     "python.formatting.provider": "black",
     "python.jediEnabled": true,
+    "python.jediPath": "~/opt/anaconda3/lib/python3.8/site-packages",
     "python.condaPath": "~/opt/anaconda3/bin/conda",
     "python.linting.pylintEnabled": false,
     "python.linting.enabled": false,
     "python.analysis.diagnosticEnabled": false,
-    "snippets.userSnippetsDirectory": "~/.vim/snippets/"
+    "snippets.userSnippetsDirectory": "~/.vim/snippets/",
+    "clangd.path": "/home/geopar/.config/coc/extensions/coc-clangd-data/install/11.0.0/clangd_11.0.0/bin/clangd"
 }

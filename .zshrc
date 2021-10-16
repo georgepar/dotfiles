@@ -136,21 +136,6 @@ else
     export EDITOR='code'
 fi
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$($HOME/opt/anaconda3/bin/conda shell.zsh hook 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "$HOME/opt/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "$HOME/opt/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="$HOME/opt/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
@@ -181,3 +166,36 @@ export NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}"  ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh"  ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+export CUDA_PATH=/usr/lib/cuda/
+
+export PATH=${PATH}:${CUDA_PATH}/bin
+
+export MKLROOT=/opt/intel/mkl
+
+export GOROOT=/usr/local/go
+export GOPATH=${HOME}/go
+export PATH=${GOROOT}/bin:${PATH}:${GOPATH}/bin
+
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/geopar/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/geopar/opt/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/geopar/opt/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/geopar/opt/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+#
+#
+#
+export KALDI_ROOT=${HOME}/projects/kaldi
+source  ${KALDI_ROOT}/tools/env.sh
+source  ${KALDI_ROOT}/tools/config/common_path.sh
+export PATH=$PWD/utils/:$KALDI_ROOT/tools/openfst/bin:$PWD:$PATH

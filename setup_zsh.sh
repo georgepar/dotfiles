@@ -3,8 +3,9 @@ ln -s $(pwd)/.zshrc $HOME/.zshrc
 ln -s $(pwd)/.p10k.zsh $HOME/.p10k.zsh
 ln -s $(pwd)/.taskrc $HOME/.taskrc
 
+
 # Install Oh my zsh
-export KEEP_ZSHRC=yes 
+export KEEP_ZSHRC=yes
 export RUNZSH=no
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
@@ -12,7 +13,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/psprint/zsh-navigation-tools/master/doc/install.sh)"
 
 # Install p10k theme
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git 
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git
 cp -r powerlevel10k ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/
 cp -r powerlevel10k/* ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/
 rm -rf powerlevel10k
