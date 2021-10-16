@@ -23,6 +23,7 @@ Plug 'tmhedberg/SimpylFold'
 Plug 'vim-scripts/indentpython.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'mbbill/undotree'
+Plug 'mvanderkamp/vim-pudb-and-jam'
 
 call plug#end()
 
@@ -87,5 +88,8 @@ command! -bang -nargs=? -complete=dir Files
 
 " advanced grep
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+
+let g:pudb_sign = "☠"
+
 
 autocmd VimEnter * RainbowLoad
