@@ -39,7 +39,7 @@ inoremap <C-k> <Up>
 " Bash like
 inoremap <C-a> <Home>
 inoremap <C-e> <End>
-inoremap <C-d> <Delete>
+inoremap <C-d> <Esc>ddO
 " Command mode shortcut
 cnoremap <C-h> <Left>
 cnoremap <C-l> <Right>
@@ -48,7 +48,7 @@ cnoremap <C-k> <Up>
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-d> <Delete>
- 
+
 " Quit visual mode
 vnoremap v <Esc>
 " Move to the start of line
