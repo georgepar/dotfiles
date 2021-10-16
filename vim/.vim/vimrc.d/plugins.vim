@@ -12,7 +12,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'dense-analysis/ale'
 Plug 'frazrepo/vim-rainbow'
 Plug 'jiangmiao/auto-pairs'
-Plug 'neoclide/coc.nvim',  {'branch': 'stable'}
+Plug 'neoclide/coc.nvim',  {'branch': 'release'}
 Plug 'arcticicestudio/nord-vim'
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-fugitive'
