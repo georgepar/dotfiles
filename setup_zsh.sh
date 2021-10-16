@@ -27,4 +27,4 @@ rm -rf powerlevel10k-media
 # Set zsh default shell (requires password)
 chsh -s $(which zsh)
 
-cp plugins/git.plugin.zsh  ~/.oh-my-zsh/plugins/git/git.plugin.zsh
+# cp plugins/git.plugin.zsh  ~/.oh-my-zsh/plugins/git/git.plugin.zsh

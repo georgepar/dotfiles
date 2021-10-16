@@ -7,7 +7,8 @@ chmod +x $CHEAT_BINARY
 
 mkdir -p $HOME/.config/cheat
 mkdir -p $HOME/.config/cheat/cheatsheets
-ln -s $(pwd)/cheatsheets/ $HOME/.config/cheat/cheatsheets/personal/
+mkdir -p $HOME/.config/cheat/cheatsheets/personal
+ln -s $(pwd)/cheatsheets/* $HOME/.config/cheat/cheatsheets/personal/
 
 $CHEAT_BINARY --init > $HOME/.config/cheat/conf.yml
 
