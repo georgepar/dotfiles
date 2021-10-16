@@ -6,6 +6,8 @@ highlight BadWhitespace ctermbg=red guibg=darkred
 set foldmethod=indent
 set foldlevel=99
 
+set formatoptions-=t
+
 if !has('nvim') && &ttimeoutlen == -1
   set ttimeout
   set ttimeoutlen=100
