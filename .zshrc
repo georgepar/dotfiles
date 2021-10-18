@@ -160,7 +160,7 @@ alias v="$VISUAL"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-alias vim=/usr/bin/vim
+[ -f /usr/bin/nvim ] && alias vim=/usr/bin/nvim
 
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
 
@@ -196,6 +196,11 @@ unset __conda_setup
 #
 #
 export KALDI_ROOT=${HOME}/projects/kaldi
-source  ${KALDI_ROOT}/tools/env.sh
-source  ${KALDI_ROOT}/tools/config/common_path.sh
-export PATH=$PWD/utils/:$KALDI_ROOT/tools/openfst/bin:$PWD:$PATH
+if [ -f ${KALDI_ROOT}/tools/env.sh ]
+then
+    source  ${KALDI_ROOT}/tools/env.sh
+    source  ${KALDI_ROOT}/tools/config/common_path.sh
+    export PATH=$PWD/utils/:$KALDI_ROOT/tools/openfst/bin:$PWD:$PATH
+fi
+
+alias "du"="dust"
