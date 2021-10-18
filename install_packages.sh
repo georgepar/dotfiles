@@ -31,3 +31,6 @@ rm -rf /tmp/reredirect
 
 cp -r shell-color-scripts ${HOME}/opt/
 cp shell-color-scripts/colorscript.sh ${HOME}/opt/bin/colorscript
+
+
+wget  -qO- https://github.com/gokcehan/lf/releases/download/r25/lf-linux-amd64.tar.gz  | tar xz > ${HOME}/opt/bin/lf

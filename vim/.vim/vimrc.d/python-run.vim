@@ -24,6 +24,7 @@ function! g:LaunchDebugger()
     silent execute 'tab' 'terminal' "python -m pudb " . shellescape(s:current_buffer_file_path, 1)
     setlocal readonly
     setlocal nomodifiable
+    silent execute "startinsert"
 endfunction
 
 function! SetupBuffer()
@@ -33,7 +34,7 @@ function! SetupBuffer()
     silent execute "update | edit"
 
     let s:output_buffer_name = "python"
-    " let s:output_buffer_filetype = "output"
+    let s:output_buffer_filetype = "output"
 
     " reuse existing buffer window if it exists otherwise create a new one
     if !exists("s:buf_nr") || !bufexists(s:buf_nr)
@@ -46,7 +47,7 @@ function! SetupBuffer()
         silent execute bufwinnr(s:buf_nr) . 'wincmd w'
     endif
 
-    " silent execute "setlocal filetype=" . s:output_buffer_filetype
+    silent execute "setlocal filetype=" . s:output_buffer_filetype
     setlocal bufhidden=delete
     setlocal buftype=nofile
     setlocal noswapfile
@@ -71,4 +72,19 @@ endfunction
 function! EqualBuffer()
     setlocal equalalways
     setlocal winfixheight
+endfunction
+
+
+function ToggleBreakPoint()
+    " save and reload current file
+    execute "PudbToggle"
+    silent execute "update | edit"
+
+endfunction
+
+function ConditionalBreakPoint()
+    " save and reload current file
+    execute "PudbEdit"
+    silent execute "update | edit"
+
 endfunction
