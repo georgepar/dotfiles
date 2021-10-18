@@ -16,7 +16,6 @@ Plug 'neoclide/coc.nvim',  {'branch': 'release'}
 Plug 'arcticicestudio/nord-vim'
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tmhedberg/SimpylFold'
@@ -24,6 +23,7 @@ Plug 'vim-scripts/indentpython.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'mbbill/undotree'
 Plug 'mvanderkamp/vim-pudb-and-jam'
+Plug 'michaeljsmith/vim-indent-object'
 
 call plug#end()
 
