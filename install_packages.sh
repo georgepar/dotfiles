@@ -28,3 +28,8 @@ cp reredicect $HOME/opt/bin/
 cp relink $HOME/opt/bin
 popd
 rm -rf /tmp/reredirect
+
+
+cp -r shell-color-scripts ${HOME}/opt/
+cp shell-color-scripts/colorscript.sh ${HOME}/opt/bin/
+

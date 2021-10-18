@@ -204,3 +204,5 @@ then
 fi
 
 alias "du"="dust"
+
+[ -f ${HOME}/opt/bin/colorscript ] && colorscript -e space-invaders
