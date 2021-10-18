@@ -24,6 +24,11 @@ mkdir -p ~/.local/share/fonts
 cp powerlevel10k-media/*.ttf ~/.local/share/fonts
 rm -rf powerlevel10k-media
 
+
+# Syntax highlight
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/opt/zsh-syntax-highlighting
+
+
 # Set zsh default shell (requires password)
 chsh -s $(which zsh)
 

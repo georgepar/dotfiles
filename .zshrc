@@ -117,9 +117,9 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
-ZSH_TMUX_AUTOSTART=true
-ZSH_TMUX_AUTOSTART_ONCE=true
-ZSH_TMUX_AUTOCONNECT=true
+ZSH_TMUX_AUTOSTART=false
+ZSH_TMUX_AUTOSTART_ONCE=false
+ZSH_TMUX_AUTOCONNECT=false
 ZSH_TMUX_AUTOQUIT=false
 
 # User configuration
@@ -129,12 +129,13 @@ ZSH_TMUX_AUTOQUIT=false
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-    export EDITOR='vim'
-else
-    export EDITOR='code'
-fi
+[ -f /usr/bin/nvim ] && export EDITOR='nvim' || export EDITOR="vim"
+# # Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#     export EDITOR='vim'
+# else
+#     export EDITOR='code'
+# fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -203,6 +204,10 @@ then
     export PATH=$PWD/utils/:$KALDI_ROOT/tools/openfst/bin:$PWD:$PATH
 fi
 
-command -v dust && alias "du"="dust"
+command -v dust > /dev/null && alias du="dust"
+command -v ranger > /dev/null && alias lf="ranger"
+
+[ -f ${HOME}/opt/zsh-syntax-highlighting/zsh-syntax/highlighting ] && source ${HOME}/opt/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
 
 [ -f ${HOME}/opt/bin/colorscript ] && colorscript -e space-invaders
