@@ -265,8 +265,8 @@ let g:which_key_map['['] = 'previous-hunk'
 let g:which_key_map[']'] = 'next-hunk'
 
 
-nmap <leader>db :PudbToggle<CR>
-nmap <leader>dc :PudbEdit<CR>
+nmap <leader>db :call ToggleBreakPoint()<CR>
+nmap <leader>dc :call ConditionalBreakPoint()<CR>
 nmap <leader>dd :call g:LaunchDebugger()<CR>
 
 let g:which_key_map['d'] = {

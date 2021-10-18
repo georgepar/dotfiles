@@ -206,3 +206,5 @@ fi
 command -v dust && alias "du"="dust"
 
 [ -f ${HOME}/opt/bin/colorscript ] && colorscript -e space-invaders
+
+[ -f ${HOME}/opt/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh ] && source ${HOME}/opt/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh
