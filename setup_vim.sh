@@ -11,3 +11,6 @@ vim +PlugInstall +qall
 vim -c 'CocInstall -sync coc-python coc-snippets coc-clangd coc-texlab coc-json coc-html|qall'
 
 vim -c 'CocInstall -sync https://github.com/SvenBecker/vscode-pytorch|qall'
+
+mkdir -p ${HOME}/.config/nvim
+ln -s init.vim ${HOME}/.config/nvim/init.vim
