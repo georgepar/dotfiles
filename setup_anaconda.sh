@@ -2,8 +2,8 @@ wget https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh -O anac
 
 bash anaconda.sh -b -p $HOME/opt/anaconda3
 
-#$HOME/opt/anaconda3/bin/pip install -Ur requirements.txt
-$HOME/opt/anaconda3/bin/pip install -Ur pudb black bpython jupyter
-#ln -s flake8 $HOME/.config/flake8
+$HOME/opt/anaconda3/bin/pip install -Ur requirements.txt
 
 rm anaconda.sh
+
+#ln -s flake8 $HOME/.config/flake8
