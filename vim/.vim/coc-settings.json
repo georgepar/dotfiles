@@ -1,6 +1,6 @@
 {
     "python.formatting.provider": "black",
-    "python.jediEnabled": true,
+    "python.jediEnabled": false,
     "python.jediPath": "~/opt/anaconda3/lib/python3.8/site-packages",
     "python.condaPath": "~/opt/anaconda3/bin/conda",
     "python.linting.pylintEnabled": false,

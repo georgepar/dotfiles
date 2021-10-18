@@ -150,11 +150,13 @@ nmap <silent> <leader>cR :call <SID>find_references()<CR>
 nmap <silent> <leader>ci :call <SID>goto_implementation()<CR>
 nmap <silent> <leader>cf :call <SID>format_code()<CR>
 nmap <silent> <leader>cs :call <SID>show_signature()<CR>
+nmap <silent> <leader>cc :call g:SaveAndExecutePython()<CR>
 nnoremap <silent> <leader>cz :set foldlevel=0<CR>
 nnoremap <silent> <leader>cZ :set foldlevel=100<CR>
 
 let g:which_key_map['c'] = {
     \ 'name' : '+code' ,
+    \ 'c' : 'execute-python'  ,
     \ 'h' : 'show-documentation'  ,
     \ 's' : 'show-signature'  ,
     \ 'r' : 'rename-variable'     ,
@@ -261,6 +263,19 @@ nmap <leader>] :call PrevHunkAllBuffers()<CR>
 
 let g:which_key_map['['] = 'previous-hunk'
 let g:which_key_map[']'] = 'next-hunk'
+
+
+nmap <leader>db :PudbToggle<CR>
+nmap <leader>dc :PudbEdit<CR>
+nmap <leader>dd :call g:LaunchDebugger()<CR>
+
+let g:which_key_map['d'] = {
+      \ 'name' : '+pudb-debug'             ,
+      \ 'b' : 'toggle-breakpoint'          ,
+      \ 'c' : 'conditional-breakpoint'     ,
+      \ 'd' : 'run-debugger'               ,
+      \ }
+
 
 
 autocmd! User vim-which-key call which_key#register('<Space>', 'g:which_key_map')
