@@ -5,7 +5,6 @@ sudo apt-get install -y \
     imagemagick direnv unzip tmux taskwarrior vim neovim htop
 
 sudo snap install dust
-sudo apt-get install -y neovim
 
 git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/opt/fzf
 $HOME/opt/fzf/install --all --no-bash --no-fish --64
@@ -32,4 +31,3 @@ rm -rf /tmp/reredirect
 
 cp -r shell-color-scripts ${HOME}/opt/
 cp shell-color-scripts/colorscript.sh ${HOME}/opt/bin/
-

@@ -203,6 +203,6 @@ then
     export PATH=$PWD/utils/:$KALDI_ROOT/tools/openfst/bin:$PWD:$PATH
 fi
 
-alias "du"="dust"
+command -v dust && alias "du"="dust"
 
 [ -f ${HOME}/opt/bin/colorscript ] && colorscript -e space-invaders

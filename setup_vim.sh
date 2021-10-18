@@ -12,5 +12,7 @@ vim -c 'CocInstall -sync coc-python coc-snippets coc-clangd coc-texlab coc-json 
 
 vim -c 'CocInstall -sync https://github.com/SvenBecker/vscode-pytorch|qall'
 
+pip show neovim && pip install neovim
+
 mkdir -p ${HOME}/.config/nvim
-ln -s init.vim ${HOME}/.config/nvim/init.vim
+ln -s $(pwd)/vim/init.vim ${HOME}/.config/nvim/init.vim
