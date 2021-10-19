@@ -15,8 +15,9 @@ endif
 
 set termguicolors
 
-" Indentation
-set textwidth=99
+" No wrap
+:set textwidth=0
+:set wrapmargin=0
 
 au BufNewFile,BufRead *.js, *.html, *.css
     \ set tabstop=2
