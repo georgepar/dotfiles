@@ -208,7 +208,7 @@ fi
 command -v dust > /dev/null && alias du="dust"
 command -v ranger > /dev/null && alias lf="ranger"
 
-[ -f ${HOME}/opt/zsh-syntax-highlighting/zsh-syntax/highlighting ] && source ${HOME}/opt/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[ -f ${HOME}/opt/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source ${HOME}/opt/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 
 [ -f ${HOME}/opt/bin/colorscript ] && colorscript -e space-invaders
