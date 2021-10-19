@@ -2,5 +2,5 @@
 " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 
 " Colorscheme
-colorscheme doom-one
+colorscheme dracula
 " let g:airline_theme = 'doom-one'

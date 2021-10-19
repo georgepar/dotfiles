@@ -14,7 +14,8 @@ Plug 'frazrepo/vim-rainbow'
 Plug 'jiangmiao/auto-pairs'
 Plug 'neoclide/coc.nvim',  {'branch': 'release'}
 " Plug 'arcticicestudio/nord-vim'
-Plug 'romgrk/doom-one.vim'
+" Plug 'romgrk/doom-one.vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
