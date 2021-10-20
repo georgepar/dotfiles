@@ -12,3 +12,5 @@ autopep8
 mypy
 percol
 pylint
+chardet
+ranger-fm

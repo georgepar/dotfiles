@@ -1,5 +1,9 @@
+#!/usr/bin/env bash
+
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}"  ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh"  ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+export PYTHONPATH=${HOME}/opt/anaconda3/lib/python3.8/site-packages/
 
 mkdir -p $HOME/.config/coc
 ln -s $(pwd)/vim/.vimrc $HOME/.vimrc
@@ -12,7 +16,7 @@ vim -c 'CocInstall -sync coc-python coc-snippets coc-clangd coc-texlab coc-json 
 
 vim -c 'CocInstall -sync https://github.com/SvenBecker/vscode-pytorch|qall'
 
-pip show neovim && pip install neovim
+pip show neovim || pip install neovim
 
 mkdir -p ${HOME}/.config/nvim
 ln -s $(pwd)/vim/init.vim ${HOME}/.config/nvim/init.vim
