@@ -76,7 +76,8 @@ ZSH_THEME="powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-TERM=xterm-256color
+#TERM=xterm-256color
+command -v kitty > /dev/null && TERM=kitty || TERM=xterm-256color
 
 plugins=(
     git
@@ -129,8 +130,8 @@ ZSH_TMUX_AUTOQUIT=false
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
-[ -f /usr/bin/nvim ] && export EDITOR='nvim' || export EDITOR="vim"
-[ -f /usr/bin/nvim ] && export VISUAL='nvim' || export VISUAL="vim"
+command -v nvim > /dev/null && export EDITOR='nvim' || export EDITOR="vim"
+command -v nvim > /dev/null && export VISUAL='nvim' || export VISUAL="vim"
 # # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
 #     export EDITOR='vim'
@@ -162,7 +163,7 @@ alias v="$VISUAL"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-[ -f /usr/bin/nvim ] && alias vim=/usr/bin/nvim
+command -v nvim > /dev/null && alias vim=nvim
 
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
 
