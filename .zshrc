@@ -173,7 +173,7 @@ export NVIM_TUI_ENABLE_TRUE_COLOR=1
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}"  ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh"  ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
-export CUDA_PATH=/usr/lib/cuda/
+[ -d /usr/lib/cuda ] && export CUDA_PATH=/usr/lib/cuda/ || export CUDA_PATH=/usr/local/cuda/
 
 export PATH=${PATH}:${CUDA_PATH}/bin
 
@@ -181,7 +181,7 @@ export MKLROOT=/opt/intel/mkl
 
 export GOROOT=${HOME}/opt/go
 export GOPATH=${HOME}/go
-export PATH=${GOROOT}/bin:${PATH}:${GOPATH}/bin
+export PATH=${GOROOT}/bin:${GOPATH}/bin:${PATH}
 
 
 # >>> conda initialize >>>

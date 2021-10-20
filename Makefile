@@ -44,8 +44,8 @@ nvim:
 fzf:
 	git clone --depth 1 https://github.com/junegunn/fzf.git $(LOCAL)/fzf
 	$(LOCAL)/fzf/install --all --no-fish
-	ln -s $(OPT)/fzf/bin/fzf $(LOCALBIN)/
-	ln -s $(OPT)/fzf/bin/fzf-tmuz $(LOCALBIN)/
+	ln -s $(LOCAL)/fzf/bin/fzf $(LOCALBIN)/
+	ln -s $(LOCAL)/fzf/bin/fzf-tmux $(LOCALBIN)/
 
 basic-system-deps:
 	$(PACKAGE_MANAGER) git curl wget build-essential cmake unzip tmux
