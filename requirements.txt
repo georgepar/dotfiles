@@ -3,9 +3,9 @@ black
 bpython
 jupyter
 pygments
-tqdm>=4.30.0
-pytest==4.6.3
-pytest-cov==2.7.1
+tqdm
+pytest
+pytest-cov
 flake8
 nox
 autopep8
@@ -14,3 +14,11 @@ percol
 pylint
 chardet
 ranger-fm
+neovim
+ipdb
+ipython
+rope
+isort
+mkdocs
+mkdocs-material
+mkdocstrings

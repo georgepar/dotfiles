@@ -6,10 +6,12 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/opt/bin:$PATH
+export PATH=$HOME/opt/bin:${HOME}/.local/bin/:$PATH
 export PATH=${HOME}/.cargo/bin:${PATH}
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
+
+ZSH_DISABLE_COMPFIX=true
 
 # Would you like to use another custom folder than $ZSH/custom?
 ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
@@ -151,7 +153,8 @@ command -v nvim > /dev/null && export VISUAL='nvim' || export VISUAL="vim"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-alias ll="ls -al"
+command -v exa > /dev/null && alias l="exa -la" || alias l="ls -alh"
+command -v exa > /dev/null && alias ll="exa -la" || alias ll="ls -alh"
 alias ln="ln -v"
 alias mkdir="mkdir -p"
 alias e="$EDITOR"
@@ -176,21 +179,21 @@ export PATH=${PATH}:${CUDA_PATH}/bin
 
 export MKLROOT=/opt/intel/mkl
 
-export GOROOT=/usr/local/go
+export GOROOT=${HOME}/opt/go
 export GOPATH=${HOME}/go
 export PATH=${GOROOT}/bin:${PATH}:${GOPATH}/bin
 
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/geopar/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/home/geopar/opt/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/home/geopar/opt/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/geopar/opt/anaconda3/etc/profile.d/conda.sh"
+    if [ -f "/home/geopar/opt/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/geopar/opt/miniconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/home/geopar/opt/anaconda3/bin:$PATH"
+        export PATH="/home/geopar/opt/miniconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -215,3 +218,12 @@ command -v ranger > /dev/null && alias lf="ranger"
 [ -f ${HOME}/opt/bin/colorscript ] && colorscript -e space-invaders
 
 [ -f ${HOME}/opt/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh ] && source ${HOME}/opt/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+
+if [ -f ${HOME}/.local/bin/zoxide ]
+then
+     eval "$(zoxide init zsh)"
+     alias cd=z
+fi

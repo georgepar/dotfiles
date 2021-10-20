@@ -3,24 +3,35 @@ LOCAL=$(HOME)/opt
 LOCALBIN=$(LOCAL)/bin
 CHEAT_VERSION=4.0.4
 CHEAT_BINARY=$(LOCALBIN)/cheat
+GO_VERSION=1.17.2
+MINICONDA_VERSION=4.10.3
 PACKAGE_MANAGER=apt-get install -y
+
+
 .ONESHELL:
 
-all: deps configall
+all: deps configall my-python-deps
 deps: must-have-deps nice-to-have-deps
-must-have-deps: initialize basic-system-deps nvm anaconda nvim fzf python-deps
-nice-to-have-deps: extra-system-deps dust reredirect colorscripts lf cheat
+system-deps: basic-system-deps extra-system-deps
+must-have-deps: initialize nvm miniconda go rust nvim fzf python-deps
+nice-to-have-deps: rust-utils reredirect colorscripts lf cheat
 
 configall: config config-optional
 config: config-git config-tmux config-vim
 config-optional: config-zsh config-kitty
 
-clean: clean-vim clean-zsh clean-git clean-anaconda clean-cheat clean-kitty clean-tmux
+clean: clean-vim clean-zsh clean-git clean-miniconda clean-cheat clean-kitty clean-tmux
 
 initialize:
-	mkdir -p ~/.local/share/fonts
+	mkdir -p $(HOME)/.local/share/fonts
 	mkdir -p $(LOCALBIN)
-	ln -s $(PWD)/bin/* $(LOCALBIN)
+	#ln -s $(PWD)/bin/* $(LOCALBIN)
+
+go:
+	wget -qO- https://dl.google.com/go/go$(GO_VERSION).linux-amd64.tar.gz | tar xzv -C ~/opt/
+
+rust:
+	curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 vim82:
 	add-apt-repository -y ppa:jonathonf/vim
@@ -28,21 +39,26 @@ vim82:
 
 nvim:
 	wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage -O $(LOCALBIN)/nvim
-	chmod +x wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage -O $(LOCALBIN)/nvim
+	chmod +x $(LOCALBIN)/nvim
 
 fzf:
 	git clone --depth 1 https://github.com/junegunn/fzf.git $(LOCAL)/fzf
-	$(LOCAL)/fzf/install --all --no-fish --64
-	ln -s $(OPT)/fzf/bin/* $(LOCALBIN)/
+	$(LOCAL)/fzf/install --all --no-fish
+	ln -s $(OPT)/fzf/bin/fzf $(LOCALBIN)/
+	ln -s $(OPT)/fzf/bin/fzf-tmuz $(LOCALBIN)/
 
 basic-system-deps:
 	$(PACKAGE_MANAGER) git curl wget build-essential cmake unzip tmux
 
 extra-system-deps:
-	$(PACKAGE_MANAGER) git-lfs imagemagick direnv zsh taskwarrior kitty cargo ffmpeg sox
+	$(PACKAGE_MANAGER) git-lfs imagemagick direnv zsh taskwarrior kitty ffmpeg sox
 
-dust:
-	cargo install du-dust
+rust-utils:
+	cargo install du-dust fd-find exa ripgrep git-delta bat procs grex cargo-cache
+	curl -sS https://webinstall.dev/zoxide | bash
+	wget https://github.com/dbrgn/tealdeer/releases/download/v1.4.1/tldr-linux-x86_64-musl -O $(LOCALBIN)/tldr
+	chmod +x $(LOCALBIN)/tldr
+	cargo cache -a
 
 nvm:
 	./setup-nvm
@@ -63,19 +79,22 @@ colorscripts:
 lf:
 	wget  -qO- https://github.com/gokcehan/lf/releases/download/r25/lf-linux-amd64.tar.gz  | \
 		tar xz > $(LOCALBIN)/lf
+	chmod +x $(LOCALBIN)/lf
 
-anaconda:
-	wget https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh -O anaconda.sh
-	bash anaconda.sh -b -p $(LOCAL)/anaconda3
-	rm anaconda.sh
+miniconda:
+	wget https://repo.anaconda.com/miniconda/Miniconda3-py38_$(MINICONDA_VERSION)-Linux-x86_64.sh -O miniconda.sh
+	bash miniconda.sh -b -p $(LOCAL)/miniconda3
+	rm miniconda.sh
 	ln -s $(PWD)/flake8 $(DOTCONFIG)/flake8
 
 python-deps:
-	$(LOCAL)/anaconda3/bin/pip install -Ur requirements.txt
+	$(LOCAL)/miniconda3/bin/pip install -Ur requirements.txt
+
+my-python-deps:
+	$(LOCAL)/miniconda3/bin/pip install -Ur prog-requirements.txt
 
 cheat:
-	wget -O - https://github.com/cheat/cheat/releases/download/$(CHEAT_VERSION)/cheat-linux-amd64.gz | \
-		gunzip > $(LOCALBIN)/cheat
+	wget -O - https://github.com/cheat/cheat/releases/download/$(CHEAT_VERSION)/cheat-linux-amd64.gz | gunzip > $(LOCALBIN)/cheat
 	chmod +x $(LOCALBIN)/cheat
 	mkdir -p $(DOTCONFIG)/cheat
 	mkdir -p $(DOTCONFIG)/cheat/cheatsheets
@@ -99,6 +118,7 @@ config-vim:
 
 config-zsh:
 	./setup-zsh
+	# chmod -R g-w,o-w $(HOME)/.oh-my-zsh/cache/completions
 
 config-tmux:
 	git clone https://github.com/tmux-plugins/tpm $(HOME)/.tmux/plugins/tpm
@@ -106,26 +126,37 @@ config-tmux:
 	$(HOME)/.tmux/plugins/tpm/bin/install_plugins
 
 clean-vim:
-	rm $(HOME)/.vimrc $(DOTCONFIG)/nvim/init.vim $(HOME)/.vim
+	rm $(HOME)/.vimrc $(DOTCONFIG)/nvim/init.vim $(HOME)/.vim || echo "Nothing to clean for vim"
 
 clean-zsh:
-	rm $(HOME)/.zshrc $(HOME)/.p10k.zsh $(HOME)/.fzf.zsh $(HOME)/.taskrc
-	rm -rf $(HOME)/.oh-my-zsh
+	rm $(HOME)/.zshrc $(HOME)/.p10k.zsh $(HOME)/.fzf.zsh $(HOME)/.taskrc || echo "Nothing to clean for zsh"
+	rm -rf $(HOME)/.oh-my-zsh || echo "Nothing to clean for oh my zsh"
 
 clean-git:
-	rm $(HOME)/.git-templates $(HOME)/.gitconfig
+	rm $(HOME)/.git-templates $(HOME)/.gitconfig || echo "Nothing to clean for git"
 
-clean-anaconda:
-	rm -rf $(LOCAL)/anaconda3
-	rm $(DOTCONFIG)/flake8
+clean-miniconda:
+	rm -rf $(LOCAL)/miniconda3 || echo "Nothing to clean for miniconda"
+	rm $(DOTCONFIG)/flake8 || echo "Nothing to clean for flake8"
 
 clean-cheat:
-	rm $(LOCALBIN)/cheat
-	rm -rf $(DOTCONFIG)/cheat
+	rm $(LOCALBIN)/cheat || echo "Nothing to clean for cheat"
+	rm -rf $(DOTCONFIG)/cheat || echo "Nothing to clean for cheat"
 
 clean-kitty:
-	rm -rf $(DOTCONFIG)/kitty
+	rm -rf $(DOTCONFIG)/kitty || echo "Nothing to clean for kitty"
 
 clean-tmux:
-	rm $(HOME)/.tmux.conf
-	rm -rf $(HOME)/.tmux/plugins/tpm
+	rm $(HOME)/.tmux.conf || echo "Nothing to clean for tmux"
+	rm -rf $(HOME)/.tmux/plugins/tpm || echo "Nothing to clean for tmux plugins"
+
+clean-nvm:
+	rm -rf $(HOME)/.nvm || echo "Nothing to clean for nvm"
+
+clean-fzf:
+	rm -rf $(LOCAL)/fzf
+	rm -rf $(LOCALBIN)/fzf
+	rm -rf $(LOCALBIN)/fzf-tmux
+
+clean-go:
+	rm -rf $(LOCAL)/go
