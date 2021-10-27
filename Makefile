@@ -17,10 +17,10 @@ must-have-deps: initialize nvm miniconda go rust nvim fzf python-deps
 nice-to-have-deps: rust-utils reredirect colorscripts lf cheat
 
 configall: config config-optional
-config: config-git config-tmux config-vim
-config-optional: config-zsh config-kitty
+config: config-zsh config-git config-tmux config-vim
+config-optional: config-kitty
 
-clean: clean-vim clean-zsh clean-git clean-miniconda clean-cheat clean-kitty clean-tmux
+clean: clean-vim clean-zsh clean-git clean-miniconda clean-cheat clean-kitty clean-tmux clean-fzf clean-go clean-nvm clean-local clean-rust
 
 initialize:
 	mkdir -p $(HOME)/.local/share/fonts
@@ -54,11 +54,11 @@ extra-system-deps:
 	$(PACKAGE_MANAGER) git-lfs imagemagick direnv zsh taskwarrior kitty ffmpeg sox
 
 rust-utils:
-	cargo install du-dust fd-find exa ripgrep git-delta bat procs grex cargo-cache
+	$(HOME)/.cargo/bin/cargo install du-dust fd-find exa ripgrep git-delta bat procs grex cargo-cache
 	curl -sS https://webinstall.dev/zoxide | bash
 	wget https://github.com/dbrgn/tealdeer/releases/download/v1.4.1/tldr-linux-x86_64-musl -O $(LOCALBIN)/tldr
 	chmod +x $(LOCALBIN)/tldr
-	cargo cache -a
+	$(HOME)/.cargo/bin/cargo cache -a
 
 nvm:
 	./setup-nvm
@@ -117,8 +117,10 @@ config-vim:
 	./setup-vim
 
 config-zsh:
+	cat $(HOME)/.zshrc || echo "No zshrc found"
+	rm $(HOME)/.zshrc || echo "No zshrc found"
 	./setup-zsh
-	# chmod -R g-w,o-w $(HOME)/.oh-my-zsh/cache/completions
+	chmod -R g-w,o-w $(HOME)/.oh-my-zsh/cache/completions || echo "No folder cache completions"
 
 config-tmux:
 	git clone https://github.com/tmux-plugins/tpm $(HOME)/.tmux/plugins/tpm
@@ -154,9 +156,15 @@ clean-nvm:
 	rm -rf $(HOME)/.nvm || echo "Nothing to clean for nvm"
 
 clean-fzf:
-	rm -rf $(LOCAL)/fzf
-	rm -rf $(LOCALBIN)/fzf
-	rm -rf $(LOCALBIN)/fzf-tmux
+	rm -rf $(LOCAL)/fzf || echo "Nothing to clean for fzf"
+	rm $(LOCALBIN)/fzf  || echo "Nothing to clean for fzf"
+	rm $(LOCALBIN)/fzf-tmux || echo "Nothing to clean for fzf"
 
 clean-go:
-	rm -rf $(LOCAL)/go
+	rm -rf $(LOCAL)/go || echo "Nothing to clean for go"
+
+clean-local:
+	rm -rf $(LOCAL)
+
+clean-rust:
+	rm -rf $(HOME)/.cargo
