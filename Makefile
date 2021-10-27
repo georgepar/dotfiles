@@ -13,7 +13,7 @@ PACKAGE_MANAGER=apt-get install -y
 all: deps configall my-python-deps
 deps: must-have-deps nice-to-have-deps
 system-deps: basic-system-deps extra-system-deps
-must-have-deps: initialize nvm miniconda go rust nvim fzf python-deps
+must-have-deps: initialize nvm miniconda rust go nvim fzf python-deps
 nice-to-have-deps: rust-utils reredirect colorscripts lf cheat
 
 configall: config config-optional
@@ -38,7 +38,7 @@ vim82:
 	apt-get install vim
 
 nvim:
-	wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage -O $(LOCALBIN)/nvim
+	wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage -O $(LOCALBIN)/nvim || wget https://github.com/neovim/neovim/releases/download/stable/nvim.appimage -O $(LOCALBIN)/nvim
 	chmod +x $(LOCALBIN)/nvim
 
 fzf:

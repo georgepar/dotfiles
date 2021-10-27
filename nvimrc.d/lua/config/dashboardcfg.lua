@@ -14,7 +14,7 @@ return function()
         "██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║",
         "╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝"
     }
-    vim.g.dashboard_default_executive = "clap"
+    vim.g.dashboard_default_executive = "telescope"
 
   vim.cmd("hi! dashboardHeader   guifg=" .. dashboard_custom_colors.header_color)
   vim.cmd("hi! dashboardCenter   guifg=" .. dashboard_custom_colors.center_color)

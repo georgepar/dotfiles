@@ -1,3 +1,12 @@
+local fn = vim.fn
+local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+if fn.empty(fn.glob(install_path)) > 0 then
+  packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+end
+
+
+
+
 vim.cmd([[
 augroup packer_user_config
 autocmd!
@@ -6,10 +15,9 @@ augroup end
 ]])
 
 vim.cmd([[ packadd packer.nvim ]])
-local packer = require("packer")
 
 -- Change some defaults
-packer.init({
+require("packer").init({
 	git = {
 		clone_timeout = 300, -- 5 mins
 		subcommands = {
@@ -23,7 +31,7 @@ packer.init({
 	},
 })
 
-packer.startup(function(use)
+require("packer").startup(function(use)
 	-- Packer can manage itself
 	use("wbthomason/packer.nvim")
 	-- Language servers / Coc plugins
@@ -187,4 +195,8 @@ packer.startup(function(use)
 		config = require("config.bufferlinecfg"),
 	})
 	use({ "Pocco81/TrueZen.nvim", config = require("config.zencfg") })
+  
+	if packer_bootstrap then
+    		require('packer').sync()
+  	end
 end)
