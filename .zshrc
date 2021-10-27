@@ -155,6 +155,7 @@ command -v nvim > /dev/null && export VISUAL='nvim' || export VISUAL="vim"
 
 command -v exa > /dev/null && alias l="exa -la" || alias l="ls -alh"
 command -v exa > /dev/null && alias ll="exa -la" || alias ll="ls -alh"
+command -v bat > /dev/null && alias cat="bat"
 alias ln="ln -v"
 alias mkdir="mkdir -p"
 alias e="$EDITOR"
