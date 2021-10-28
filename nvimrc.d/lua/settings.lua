@@ -14,28 +14,22 @@ au BufNewFile,BufRead *.js, *.html, *.css
     \| set shiftwidth=2
 ]])
 
-
-
 -- Flag extra whitespace
 vim.api.nvim_command([[
 au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 ]])
 
-
-vim.cmd[[
+vim.cmd([[
 augroup Format
     autocmd!
     autocmd BufWritePost * FormatWrite
 augroup END
-]]
+]])
 
-vim.cmd[[autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>]]
+vim.cmd([[autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>]])
 
-
-vim.cmd[[autocmd VimEnter * colorscheme doom-one]]
+vim.cmd([[autocmd VimEnter * colorscheme doom-one]])
 -- vim.cmd[[autocmd VimEnter * colorscheme dracula]]
-
 
 -- vim.api.nvim_set_keymap('n', '<Space>q', 'Nop', {silent=true})
 vim.g.mapleader = " "
-vim.go.timeoutlen=400

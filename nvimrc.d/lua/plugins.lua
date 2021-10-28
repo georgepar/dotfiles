@@ -20,6 +20,8 @@ augroup end
 
 vim.cmd([[ packadd packer.nvim ]])
 
+CONFIG = require("configuration")
+
 -- Change some defaults
 require("packer").init({
 	git = {
@@ -37,45 +39,33 @@ require("packer").init({
 
 require("packer").startup(function(use)
 	-- Packer can manage itself
-	use("wbthomason/packer.nvim")
-	-- Language servers / Coc plugins
-	-- use {'neoclide/coc.nvim', branch = 'release'}
-	-- use {'fannheyward/coc-pyright', run = 'yarn install --frozen-lockfile'}
-	-- use {'josa42/coc-lua', run = 'yarn install --frozen-lockfile'}
-	-- use {'josa42/coc-sh', run = 'yarn install --frozen-lockfile'}
-	-- use {'clangd/coc-clangd', run = 'yarn install --frozen-lockfile'}
-	-- use {'josa42/coc-go', run = 'yarn install --frozen-lockfile'}
-	-- use {'neoclide/coc-json', run = 'yarn install --frozen-lockfile'}
-	-- use {'fannheyward/coc-markdownlint', run = 'yarn install --frozen-lockfile'}
-	-- use {'fannheyward/coc-rust-analyzer', run = 'yarn install --frozen-lockfile'}
-	-- use {'Onichandame/coc-proto3', run = 'yarn install --frozen-lockfile'}
-	-- use {'kkiyama117/coc-toml', run = 'yarn install --frozen-lockfile'}
-	-- use {'neoclide/coc-yaml', run = 'yarn install --frozen-lockfile'}
-	--use "junegunn/fzf.vim"
-	--use({
-	--  'ibhagwan/fzf-lua',
-	--  requires = {
-	--    'vijaymarupudi/nvim-fzf',
-	--   'kyazdani42/nvim-web-devicons' } -- optional for icons
-	--})
+	use({ "wbthomason/packer.nvim" })
 
-	-- Utilities
-	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
+	-- Setup Treesitter
+	use({
+		"nvim-treesitter/nvim-treesitter",
+		run = ":TSUpdate",
+		branch = "0.5-compat",
+		config = CONFIG.treesitter,
+	})
 	use({
 		"romgrk/nvim-treesitter-context",
-		config = require("config.treesittercontextcfg"),
+		config = CONFIG.treesitter_context,
 	})
-	use({
-		"nvim-treesitter/nvim-treesitter-textobjects",
-		config = require("config.textobjectscfg"),
-	})
-	use({ "liuchengxu/vim-better-default", config = require("config.betterdefaultcfg") })
-	use({ "tmhedberg/SimpylFold", config = require("config.simpylfoldcfg") })
-	use({
-		"lukas-reineke/format.nvim",
-		config = require("config.formatcfg"),
-		event = "BufWinEnter",
-	})
+	use({ "nvim-treesitter/nvim-treesitter-textobjects" })
+	use({ "RRethy/nvim-treesitter-textsubjects" })
+
+	-- Classic vim utilities
+	use({ "liuchengxu/vim-better-default", config = CONFIG.better_default })
+	use({ "tmhedberg/SimpylFold", config = CONFIG.simpylfold })
+	use({ "tpope/vim-commentary" })
+	use({ "michaeljsmith/vim-indent-object" })
+	use({ "vim-scripts/indentpython.vim" })
+	use({ "mbbill/undotree" })
+	use({ "tpope/vim-surround" })
+
+	-- git
+	use({ "tpope/vim-fugitive" })
 	use({
 		"lewis6991/gitsigns.nvim",
 		requires = {
@@ -85,32 +75,6 @@ require("packer").startup(function(use)
 			require("gitsigns").setup()
 		end,
 	})
-	-- use {
-	--     'kyazdani42/nvim-tree.lua',
-	--     requires = 'kyazdani42/nvim-web-devicons',
-	--     config = function() require'nvim-tree'.setup {} end
-	-- }
-	use("tpope/vim-commentary")
-	use({
-		"folke/which-key.nvim",
-		config = require("config.whichkeycfg"),
-	})
-	-- use {'liuchengxu/vim-clap', run = './install.sh', config = require('config.clapcfg')}
-	use({
-		"nvim-telescope/telescope.nvim",
-		requires = { { "nvim-lua/plenary.nvim" } },
-		config = require("config.telescopecfg"),
-	})
-
-	use("michaeljsmith/vim-indent-object")
-	use("vim-scripts/indentpython.vim")
-	use("mbbill/undotree")
-	use("tpope/vim-surround")
-	use("tpope/vim-fugitive")
-	use({ "akinsho/toggleterm.nvim", config = require("config.toggletermcfg") })
-
-	use({ "sindrets/diffview.nvim" })
-
 	use({
 		"TimUntersberger/neogit",
 		config = function()
@@ -124,9 +88,23 @@ require("packer").startup(function(use)
 		cmd = "Neogit",
 		module = "neogit",
 	})
+	use({ "sindrets/diffview.nvim" })
+
+	-- Nvim utilities
+	use({
+		"folke/which-key.nvim",
+		config = CONFIG.whichkey,
+	})
+	use({
+		"nvim-telescope/telescope.nvim",
+		requires = { { "nvim-lua/plenary.nvim" } },
+		config = CONFIG.telescope,
+	})
+	use({ "fedepujol/move.nvim" })
+	use({ "akinsho/toggleterm.nvim", config = CONFIG.toggleterm })
 	use({
 		"windwp/nvim-autopairs",
-		config = require("config.autopairscfg"),
+		config = CONFIG.autopairs,
 		event = "InsertEnter",
 	})
 	use({
@@ -137,8 +115,18 @@ require("packer").startup(function(use)
 			require("persistence").setup({ dir = vim.fn.stdpath("data") .. "/sessions/" })
 		end,
 	})
+	use({
+		"nvim-neorg/neorg",
+		config = CONFIG.neorg,
+		requires = "nvim-lua/plenary.nvim",
+	})
 
-	-- LSP + autocomplete
+	-- Code interaction + LSP + autocomplete
+	use({
+		"lukas-reineke/format.nvim",
+		config = CONFIG.format,
+		event = "BufWinEnter",
+	})
 
 	use({
 		"ms-jpq/coq_nvim",
@@ -165,8 +153,8 @@ require("packer").startup(function(use)
 		end,
 	})
 
-	use({ "neovim/nvim-lspconfig", config = require("config.lspcfg") })
-	use({ "williamboman/nvim-lsp-installer", config = require("config.lspinstallercfg") })
+	use({ "neovim/nvim-lspconfig", config = CONFIG.lspconfig })
+	use({ "williamboman/nvim-lsp-installer", config = CONFIG.lspinstaller })
 	use({
 		"folke/trouble.nvim",
 		requires = "kyazdani42/nvim-web-devicons",
@@ -179,14 +167,13 @@ require("packer").startup(function(use)
 		end,
 	})
 	use({ "simrat39/symbols-outline.nvim" })
-
 	--
 
 	-- UI
 	use({ "dracula/vim", as = "dracula" })
 	use({ "romgrk/doom-one.vim" })
 	use({ "GustavoPrietoP/doom-themes.nvim", event = "ColorSchemePre" })
-	use({ "glepnir/dashboard-nvim", config = require("config.dashboardcfg") })
+	use({ "glepnir/dashboard-nvim", config = CONFIG.dashboard })
 	use({
 		"glepnir/galaxyline.nvim",
 		branch = "main",
@@ -200,9 +187,9 @@ require("packer").startup(function(use)
 	use({
 		"akinsho/bufferline.nvim",
 		requires = "kyazdani42/nvim-web-devicons",
-		config = require("config.bufferlinecfg"),
+		config = CONFIG.bufferline,
 	})
-	use({ "Pocco81/TrueZen.nvim", config = require("config.zencfg") })
+	use({ "Pocco81/TrueZen.nvim", config = CONFIG.zen })
 
 	if packer_bootstrap then
 		require("packer").sync()
