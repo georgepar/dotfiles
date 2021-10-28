@@ -1,11 +1,15 @@
 local fn = vim.fn
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
-  packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+	packer_bootstrap = fn.system({
+		"git",
+		"clone",
+		"--depth",
+		"1",
+		"https://github.com/wbthomason/packer.nvim",
+		install_path,
+	})
 end
-
-
-
 
 vim.cmd([[
 augroup packer_user_config
@@ -61,12 +65,16 @@ require("packer").startup(function(use)
 		"romgrk/nvim-treesitter-context",
 		config = require("config.treesittercontextcfg"),
 	})
+	use({
+		"nvim-treesitter/nvim-treesitter-textobjects",
+		config = require("config.textobjectscfg"),
+	})
 	use({ "liuchengxu/vim-better-default", config = require("config.betterdefaultcfg") })
 	use({ "tmhedberg/SimpylFold", config = require("config.simpylfoldcfg") })
 	use({
 		"lukas-reineke/format.nvim",
 		config = require("config.formatcfg"),
-		event = 'BufWinEnter'
+		event = "BufWinEnter",
 	})
 	use({
 		"lewis6991/gitsigns.nvim",
@@ -195,8 +203,8 @@ require("packer").startup(function(use)
 		config = require("config.bufferlinecfg"),
 	})
 	use({ "Pocco81/TrueZen.nvim", config = require("config.zencfg") })
-  
+
 	if packer_bootstrap then
-    		require('packer').sync()
-  	end
+		require("packer").sync()
+	end
 end)
