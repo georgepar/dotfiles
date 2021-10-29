@@ -71,20 +71,11 @@ require("packer").startup(function(use)
 		requires = {
 			"nvim-lua/plenary.nvim",
 		},
-		config = function()
-			require("gitsigns").setup()
-		end,
+		config = CONFIG.gitsigns,
 	})
 	use({
 		"TimUntersberger/neogit",
-		config = function()
-			require("neogit").setup({
-				disable_commit_confirmation = true,
-				integrations = {
-					diffview = true,
-				},
-			})
-		end,
+		config = CONFIG.neogit,
 		cmd = "Neogit",
 		module = "neogit",
 	})
@@ -111,9 +102,7 @@ require("packer").startup(function(use)
 		"folke/persistence.nvim",
 		event = "BufReadPre", -- this will only start session saving when an actual file was opened
 		module = "persistence",
-		config = function()
-			require("persistence").setup({ dir = vim.fn.stdpath("data") .. "/sessions/" })
-		end,
+		config = CONFIG.persistence,
 	})
 	use({
 		"nvim-neorg/neorg",
@@ -128,43 +117,48 @@ require("packer").startup(function(use)
 		event = "BufWinEnter",
 	})
 
+	-- use({
+	-- 	"ms-jpq/coq_nvim",
+	-- 	branch = "coq",
+	-- 	event = "VimEnter",
+	-- 	run = ":COQdeps",
+	-- 	config = CONFIG.coq,
+	-- })
+	-- use({ "ms-jpq/coq.artifacts", branch = "artifacts" })
+	-- use({
+	-- 	"ms-jpq/coq.thirdparty",
+	-- 	branch = "3p",
+	-- 	config = CONFIG.coq3p,
+	-- })
+
 	use({
-		"ms-jpq/coq_nvim",
-		branch = "coq",
-		event = "VimEnter",
-		run = ":COQdeps",
-		config = "vim.cmd[[COQnow]]",
-	})
-	use({ "ms-jpq/coq.artifacts", branch = "artifacts" })
-	use({
-		"ms-jpq/coq.thirdparty",
-		branch = "3p",
+		"ray-x/lsp_signature.nvim",
 		config = function()
-			require("coq_3p")({
-				{ src = "nvimlua", short_name = "nvLua" },
-				{
-					src = "repl",
-					sh = "zsh",
-					shell = { P = "perl", p = "python", s = "bash" },
-					unsafe = { "rm", "mv", "dd" },
+			require("lsp_signature").setup({
+				bind = true, -- This is mandatory, otherwise border config won't get registered.
+				handler_opts = {
+					border = "single",
 				},
-				{ src = "bc", short_name = "MATH", precision = 4 },
 			})
 		end,
 	})
-
 	use({ "neovim/nvim-lspconfig", config = CONFIG.lspconfig })
-	use({ "williamboman/nvim-lsp-installer", config = CONFIG.lspinstaller })
 	use({
 		"folke/trouble.nvim",
 		requires = "kyazdani42/nvim-web-devicons",
-		config = function()
-			require("trouble").setup({
-				-- your configuration comes here
-				-- or leave it empty to use the default settings
-				-- refer to the configuration section below
-			})
-		end,
+		config = CONFIG.trouble,
+	})
+	use({
+		"hrsh7th/nvim-cmp",
+		requires = {
+
+			{ "kdheepak/cmp-latex-symbols" },
+			{ "hrsh7th/cmp-cmdline" },
+			{ "hrsh7th/cmp-path" },
+			{ "hrsh7th/cmp-buffer" },
+			{ "hrsh7th/cmp-nvim-lsp" },
+		},
+		config = CONFIG.cmp,
 	})
 	use({ "simrat39/symbols-outline.nvim" })
 	--
@@ -178,9 +172,7 @@ require("packer").startup(function(use)
 		"glepnir/galaxyline.nvim",
 		branch = "main",
 		-- your statusline
-		config = function()
-			require("config.eviline")
-		end,
+		config = CONFIG.eviline,
 		-- some optional icons
 		requires = { "kyazdani42/nvim-web-devicons" },
 	})

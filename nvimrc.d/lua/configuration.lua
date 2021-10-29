@@ -75,6 +75,78 @@ M.bufferline = function()
 	})
 end
 
+M.cmp = function()
+	vim.g.completeopt = "menu,menuone,noselect"
+	local cmp = require("cmp")
+	cmp.setup({
+		experimental = {
+			ghost_text = true,
+			active_preview = true,
+		},
+		completion = {
+			autocomplete = false,
+		},
+		sources = cmp.config.sources({
+			{ name = "nvim_lsp" },
+			{ name = "path" },
+			{ name = "nvim_lua" },
+			{ name = "cmdline" },
+			{ name = "latex_symbols" },
+
+			-- { name = "vsnip" }, -- For vsnip users.
+			-- { name = 'luasnip' }, -- For luasnip users.
+			-- { name = 'ultisnips' }, -- For ultisnips users.
+			-- { name = 'snippy' }, -- For snippy users.
+		}, {
+			{ name = "buffer" },
+		}),
+		mapping = {
+			["<Tab>"] = function(fallback)
+				if cmp.visible() then
+					cmp.select_next_item()
+				else
+					fallback()
+				end
+			end,
+			["<S-Tab>"] = function(fallback)
+				if cmp.visible() then
+					cmp.select_prev_item()
+				else
+					fallback()
+				end
+			end,
+			["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+			["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+			["<C-d>"] = cmp.mapping.scroll_docs(-4),
+			["<C-f>"] = cmp.mapping.scroll_docs(4),
+			["<C-x>"] = cmp.mapping.complete(),
+			["<C-e>"] = cmp.mapping.close(),
+			["<CR>"] = cmp.mapping.confirm({
+				behavior = cmp.ConfirmBehavior.Replace,
+				select = true,
+			}),
+		},
+	})
+
+	-- Use buffer source for `/`.
+	cmp.setup.cmdline("/", {
+		sources = {
+			{ name = "buffer" },
+		},
+	})
+
+	-- Use cmdline & path source for ':'.
+	cmp.setup.cmdline(":", {
+		sources = cmp.config.sources({
+			{ name = "path" },
+		}, {
+			{ name = "cmdline" },
+		}),
+	})
+
+	vim.cmd([[autocmd FileType TelescopePrompt lua require('cmp').setup.buffer { enabled = false }]])
+end
+
 -- dashboard-nvim configuration
 M.dashboard = function()
 	local dashboard_custom_colors = {
@@ -513,7 +585,67 @@ M.format = function()
 		},
 	})
 end
--- neorg
+
+-- gitsigns.nvim configuration
+M.gitsigns = function()
+	require("which-key").register({
+		["g"] = {
+			name = "+git",
+			["g"] = { ":Neogit<cr>", "neogit" },
+			["d"] = { ":DiffviewOpen<cr>", "git-diff" },
+			["D"] = { ":DiffviewOpen master<cr>", "git-diff-master" },
+			["l"] = { ":Neogit log<cr>", "git-log" },
+			["p"] = { ":Neogit pull<cr>", "git-pull" },
+			["P"] = { ":Neogit push<cr>", "git-push" },
+			["]"] = { "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'", "next-hunk" },
+			["["] = { "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'", "prev-hunk" },
+			["s"] = { '<cmd>lua require"gitsigns".stage_hunk()<CR>', "stage-hunk" },
+			["u"] = { '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>', "unstage-hunk" },
+			["r"] = { '<cmd>lua require"gitsigns".reset_hunk()<CR>', "reset-hunk" },
+			["R"] = { '<cmd>lua require"gitsigns".reset_buffer()<CR>', "reset-buffer" },
+			["v"] = { '<cmd>lua require"gitsigns".preview_hunk()<CR>', "preview-hunk" },
+			["b"] = { '<cmd>lua require"gitsigns".blame_line(true)<CR>', "blame-line" },
+			["S"] = { '<cmd>lua require"gitsigns".stage_buffer()<CR>', "stage-buffer" },
+			["U"] = { '<cmd>lua require"gitsigns".reset_buffer_index()<CR>', "reset-buffer" },
+		},
+	}, {
+		prefix = "<leader>",
+	})
+
+	require("gitsigns").setup({
+		keymaps = {
+			-- Default keymap options
+			noremap = true,
+
+			["n ]c"] = {
+				expr = true,
+				"&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'",
+			},
+			["n [c"] = {
+				expr = true,
+				"&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'",
+			},
+
+			["v <leader>gs"] = '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
+			["v <leader>gr"] = '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
+
+			-- Text objects
+			["o ih"] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>',
+			["x ih"] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>',
+		},
+	})
+end
+
+M.neogit = function()
+	require("neogit").setup({
+		disable_commit_confirmation = true,
+		integrations = {
+			diffview = true,
+		},
+	})
+end
+
+-- neorg configuration
 M.neorg = function()
 	require("neorg").setup({
 		-- Tell Neorg what modules to load
@@ -539,6 +671,97 @@ end
 
 -- nvim-lspconfig configuration
 M.lspconfig = function()
+	local lspconfig = require("lspconfig")
+	local util = require("lspconfig.util")
+	local langs = {
+		bashls = { cmd = "bash-language-server", root_pattern = {} },
+		clangd = { cmd = "clangd", root_pattern = { "CMakeLists.txt", "Makefile" } },
+		cmake = { cmd = "cmake-language-server", root_pattern = { "CMakeLists.txt" } },
+		dockerls = { cmd = "docker-langserver", root_pattern = { "Dockerfile" } },
+		gopls = { cmd = "gopls", root_pattern = { "Makefile" } },
+		html = { cmd = "vscode-html-language-server", root_pattern = { "index.html", "package.json" } },
+		jsonls = { cmd = "vscode-json-language-server", root_pattern = {} },
+		pyright = {
+			cmd = "pyright-langserver",
+			root_pattern = { "setup.py", "setup.cfg", "pyproject.toml", "pyrightconfig.json", "requirements.txt" },
+		},
+		rust_analyzer = { cmd = "rust-analyzer", root_pattern = "Cargo.toml" },
+		sumneko_lua = { cmd = "lua-language-server", root_pattern = { "lua" } },
+		texlab = { cmd = "texlab", root_pattern = { "refs.bib", "main.tex" } },
+		tsserver = { cmd = "typescript-language-server", root_pattern = { "package.json" } },
+		yamlls = { cmd = "yaml-language-server", root_pattern = {} },
+		zeta_note = { cmd = "zeta-note-linux", root_pattern = { "README.md", "index.md" } },
+	}
+
+	for lang, overrides in pairs(langs) do
+		local attach_cb = function()
+			bufnr = vim.bufnr
+			local function buf_setopt(...)
+				vim.api.nvim_buf_set_option(bufnr, ...)
+			end
+
+			buf_setopt("omnifunc", "v:lua.vim.lsp.omnifunc")
+			require("which-key").register({
+				["c"] = {
+					name = "+code",
+					["H"] = { "<cmd>lua vim.lsp.buf.hover()<CR>", "hover-text" },
+					["d"] = { ":Telescope lsp_definitions<cr>", "find-definitions" },
+					["r"] = { ":Telescope lsp_references<cr>", "find-references" },
+					["D"] = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "goto-declaration" },
+					["i"] = { ":Telescope lsp_implementations<cr>", "find-implementations" },
+					["h"] = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "signature-help" },
+					["E"] = { ":Trouble lsp_workspace_diagnostics<cr>", "workspace-diagnostics" },
+					["e"] = { ":Trouble lsp_document_diagnostics<cr>", "document-diagnostics" },
+					["a"] = { ":Telescope lsp_code_actions<cr>", "code-actions" },
+					["R"] = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename" },
+					["t"] = { ":Telescope lsp_type_definitions<cr>", "type-definitions" },
+					["s"] = { ":SymbolsOutline<cr>", "document-symbols" },
+					["S"] = { ":Telescope lsp_workspace_symbols<cr>", "workspace-symbols" },
+					["q"] = { ":Trouble quickfix<cr>", "quickfix" },
+					["l"] = { ":Trouble loclist<cr>", "location-list" },
+				},
+			}, {
+				prefix = "<leader>",
+				buffer = bufnr,
+			})
+		end
+
+		local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+		local config = {
+			capabilities = capabilities,
+			flags = {
+				debounce_text_changes = 500,
+			},
+			on_attach = attach_cb,
+			root_dir = function(fname)
+				local root_files = {
+					".git",
+					"Makefile",
+				}
+
+				if overrides.root_pattern ~= nil then
+					for _, v in pairs(overrides.root_pattern) do
+						table.insert(root_files, v)
+					end
+				end
+				local root = util.root_pattern(unpack(root_files))(fname) or util.path.dirname(fname)
+				if root == vim.loop.os_homedir() then
+					root = nil
+				end
+				return root
+			end,
+		}
+		if lang == "sumneko_lua" then
+			config.cmd = {
+				vim.loop.os_homedir() .. "/opt/sumneko_lua/bin/Linux/lua-language-server",
+				"-E",
+				vim.loop.os_homedir() .. "/opt/sumneko_lua/bin/Linux/main.lua",
+			}
+		end
+		lspconfig[lang].setup(config)
+	end
+
 	vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
 		virtual_text = false,
 		signs = true,
@@ -546,147 +769,15 @@ M.lspconfig = function()
 	})
 end
 
--- nvim-lsp-installer configuration
-M.lspinstaller = function()
-	local lsp_installer = require("nvim-lsp-installer")
-
-	local capabilities = vim.lsp.protocol.make_client_capabilities()
-	capabilities.textDocument.completion.completionItem.snippetSupport = true
-	capabilities.textDocument.completion.completionItem.preselectSupport = true
-	capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
-	capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-	capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-	capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-	capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
-	capabilities.textDocument.completion.completionItem.resolveSupport = {
-		properties = {
-			"documentation",
-			"detail",
-			"additionalTextEdits",
-		},
-	}
-
-	-- Provide settings first!
-	lsp_installer.settings({
-		ui = {
-			icons = {
-				server_installed = "✓",
-				server_pending = "➜",
-				server_uninstalled = "✗",
-			},
+M.persistence = function()
+	require("persistence").setup({ dir = vim.fn.stdpath("data") .. "/sessions/" })
+	require("which-key").register({
+		["s"] = {
+			name = "+session",
+			["s"] = { '<cmd>lua require("persistence").load()<cr>', "restore-curr-dir-session" },
+			["l"] = { '<cmd>lua require("persistence").load({ last = true })<cr>', "restore-last-session" },
 		},
 	})
-
-	local lsp_installer_servers = require("nvim-lsp-installer.servers")
-
-	local langs = {
-		bashls = {},
-		clangd = {},
-		cmake = {},
-		dockerls = {},
-		gopls = {},
-		html = {},
-		jsonls = {},
-		pyright = {},
-		rust_analyzer = {},
-		sumneko_lua = {},
-		texlab = {},
-		tsserver = {},
-		yamlls = {},
-	}
-
-	lsp_installer.on_server_ready(function(server)
-		local config = {
-			capabilities = capabilities,
-			flags = {
-				debounce_text_changes = 500,
-			},
-			root_dir = function(fname)
-				local util = require("lspconfig.util")
-				local root_files = {
-					".git",
-					".vimrc",
-					"setup.py",
-					"setup.cfg",
-					"pyrightconfig.json",
-					"pyproject.toml",
-					"requirements.txt",
-					"package.json",
-					"Makefile",
-					"CMakeLists.txt",
-					"init.lua",
-				}
-				local root = util.root_pattern(unpack(root_files))(fname) or util.path.dirname(fname)
-				local bits = vim.split(root, "/")
-				if root == vim.loop.os_homedir() or bits[2] ~= "home" or #bits < 5 then
-					root = nil
-				end
-				return root
-			end,
-		}
-
-		local function buf_setopt(...)
-			vim.api.nvim_buf_set_option(vim.bufnr, ...)
-		end
-
-		buf_setopt("omnifunc", "v:lua.vim.lsp.omnifunc")
-		require("which-key").register({
-			["c"] = {
-				name = "+code",
-				["H"] = { "<cmd>lua vim.lsp.buf.hover()<CR>", "hover-text" },
-				-- ["d"] = { "<cmd>lua vim.lsp.buf.definition()<CR>", "Goto definition" },
-				["d"] = { ":Telescope lsp_definitions<cr>", "find-definitions" },
-				-- ["r"] = { "<cmd>lua vim.lsp.buf.references()<CR>", "List references" },
-				["r"] = { ":Telescope lsp_references<cr>", "find-references" },
-				["D"] = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "goto-declaration" },
-				-- ["i"] = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "Goto implementation" },
-				["i"] = { ":Telescope lsp_implementations<cr>", "find-implementations" },
-				["h"] = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "signature-help" },
-				["E"] = { ":Telescope lsp_workspace_diagnostics<cr>", "workspace-diagnostics" },
-				-- ["E"] = {
-				-- 	"<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>",
-				-- 	"List all diagnostics",
-				-- },
-				["e"] = {
-					name = "+errors",
-					["e"] = { ":Telescope lsp_document_diagnostics<cr>", "document-diagnostics" },
-					["p"] = { "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", "prev-diagnostic" },
-					["n"] = { "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", "next-diagnostic" },
-				},
-				-- ["e"] = {
-				-- 	"<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>",
-				-- 	"Show line diagnostics",
-				-- },
-				-- ["a"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code action" },
-				["a"] = { ":Telescope lsp_code_actions<cr>", "code-actions" },
-				["R"] = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename" },
-				-- ["t"] = { "<cmd>lua vim.lsp.buf.type_definition()<CR>", "Type definition" },
-				["t"] = { ":Telescope lsp_type_definitions<cr>", "type-definitions" },
-				["s"] = { ":SymbolsOutline<cr>", "document-symbols" },
-				["S"] = { ":Telescope lsp_workspace_symbols<cr>", "workspace-symbols" },
-			},
-		}, {
-			prefix = "<leader>",
-			buffer = vim.bufnr,
-		})
-
-		-- for k,v in pairs(langs[server]) do
-		--     config[k] = v
-		-- end
-
-		local coq = require("coq")
-		server:setup(coq.lsp_ensure_capabilities(vim.tbl_deep_extend("force", config, {})))
-		vim.cmd([[ do User LspAttachBuffers ]])
-	end)
-
-	for lsp, _ in pairs(langs) do
-		local ok, server = lsp_installer_servers.get_server(lsp)
-		if ok then
-			if not server:is_installed() then
-				server:install()
-			end
-		end
-	end
 end
 
 -- SimpylFold configuration
@@ -850,6 +941,15 @@ M.treesitter_context = function()
 	})
 end
 
+-- trouble.nvim configuration
+M.trouble = function()
+	require("trouble").setup({
+		-- your configuration comes here
+		-- or leave it empty to use the default settings
+		-- refer to the configuration section below
+	})
+end
+
 -- which-key.nvim configuration
 M.whichkey = function()
 	local wk = require("which-key")
@@ -909,6 +1009,7 @@ M.whichkey = function()
 	})
 
 	local mappings = {
+		["<leader>"] = { "<Nop>", "leave-pane" },
 		["q"] = {
 			name = "+quit",
 			["q"] = { ":qa!<cr>", "quit-all" },
@@ -921,15 +1022,6 @@ M.whichkey = function()
 		["p"] = { ":setlocal paste!<cr>", "set-paste" },
 		["t"] = { ":ToggleTerm<cr>", "terminal" },
 		["r"] = { '<cmd>lua require("runner").run_code()<CR>', "run-code" },
-		["g"] = {
-			name = "+git",
-			["g"] = { ":Neogit<cr>", "neogit" },
-			["d"] = { ":DiffviewOpen<cr>", "git-diff" },
-			["D"] = { ":DiffviewOpen master<cr>", "git-diff-master" },
-			["l"] = { ":Neogit log<cr>", "git-log" },
-			["p"] = { ":Neogit pull<cr>", "git-pull" },
-			["P"] = { ":Neogit push<cr>", "git-push" },
-		},
 	}
 
 	wk.register(mappings, { prefix = "<leader>" })
