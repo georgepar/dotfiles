@@ -20,8 +20,6 @@ augroup end
 
 vim.cmd([[ packadd packer.nvim ]])
 
-CONFIG = require("configuration")
-
 -- Change some defaults
 require("packer").init({
 	git = {
@@ -38,26 +36,27 @@ require("packer").init({
 })
 
 require("packer").startup(function(use)
-	-- Packer can manage itself
+	local config = require("configuration")
+	-- packer can manage itself
 	use({ "wbthomason/packer.nvim" })
 
-	-- Setup Treesitter
-	use({
-		"nvim-treesitter/nvim-treesitter",
-		run = ":TSUpdate",
-		branch = "0.5-compat",
-		config = CONFIG.treesitter,
-	})
+	-- setup treesitter
 	use({
 		"romgrk/nvim-treesitter-context",
-		config = CONFIG.treesitter_context,
+		config = config.treesitter_context,
 	})
 	use({ "nvim-treesitter/nvim-treesitter-textobjects" })
-	use({ "RRethy/nvim-treesitter-textsubjects" })
+	use({ "rrethy/nvim-treesitter-textsubjects" })
+	use({
+		"nvim-treesitter/nvim-treesitter",
+		run = ":tsupdate",
+		branch = "0.5-compat",
+		config = config.treesitter,
+	})
 
-	-- Classic vim utilities
-	use({ "liuchengxu/vim-better-default", config = CONFIG.better_default })
-	use({ "tmhedberg/SimpylFold", config = CONFIG.simpylfold })
+	-- classic vim utilities
+	use({ "liuchengxu/vim-better-default", config = config.better_default })
+	use({ "tmhedberg/simpylfold", config = config.simpylfold })
 	use({ "tpope/vim-commentary" })
 	use({ "michaeljsmith/vim-indent-object" })
 	use({ "vim-scripts/indentpython.vim" })
@@ -71,117 +70,112 @@ require("packer").startup(function(use)
 		requires = {
 			"nvim-lua/plenary.nvim",
 		},
-		config = CONFIG.gitsigns,
+		config = config.gitsigns,
 	})
-	use({
-		"TimUntersberger/neogit",
-		config = CONFIG.neogit,
-		cmd = "Neogit",
-		module = "neogit",
-	})
-	use({ "sindrets/diffview.nvim" })
 
-	-- Nvim utilities
+	use({
+		"timuntersberger/neogit",
+		config = config.neogit,
+		cmd = "neogit",
+		module = "neogit",
+		requires = { "sindrets/diffview.nvim" },
+		opt = false,
+	})
+	-- nvim utilities
 	use({
 		"folke/which-key.nvim",
-		config = CONFIG.whichkey,
+		config = config.whichkey,
 	})
 	use({
 		"nvim-telescope/telescope.nvim",
 		requires = { { "nvim-lua/plenary.nvim" } },
-		config = CONFIG.telescope,
+		config = config.telescope,
 	})
 	use({ "fedepujol/move.nvim" })
-	use({ "akinsho/toggleterm.nvim", config = CONFIG.toggleterm })
+	use({ "akinsho/toggleterm.nvim", config = config.toggleterm })
 	use({
 		"windwp/nvim-autopairs",
-		config = CONFIG.autopairs,
-		event = "InsertEnter",
+		config = config.autopairs,
+		event = "insertenter",
 	})
 	use({
 		"folke/persistence.nvim",
-		event = "BufReadPre", -- this will only start session saving when an actual file was opened
+		event = "bufreadpre", -- this will only start session saving when an actual file was opened
 		module = "persistence",
-		config = CONFIG.persistence,
+		config = config.persistence,
 	})
 	use({
 		"nvim-neorg/neorg",
-		config = CONFIG.neorg,
+		config = config.neorg,
 		requires = "nvim-lua/plenary.nvim",
 	})
 
-	-- Code interaction + LSP + autocomplete
+	-- code interaction + lsp + autocomplete
 	use({
 		"lukas-reineke/format.nvim",
-		config = CONFIG.format,
-		event = "BufWinEnter",
+		config = config.format,
+		event = "bufwinenter",
 	})
 
 	-- use({
 	-- 	"ms-jpq/coq_nvim",
 	-- 	branch = "coq",
-	-- 	event = "VimEnter",
-	-- 	run = ":COQdeps",
-	-- 	config = CONFIG.coq,
+	-- 	event = "vimenter",
+	-- 	run = ":coqdeps",
+	-- 	config = config.coq,
 	-- })
 	-- use({ "ms-jpq/coq.artifacts", branch = "artifacts" })
 	-- use({
 	-- 	"ms-jpq/coq.thirdparty",
 	-- 	branch = "3p",
-	-- 	config = CONFIG.coq3p,
+	-- 	config = config.coq3p,
 	-- })
 
 	use({
 		"ray-x/lsp_signature.nvim",
-		config = function()
-			require("lsp_signature").setup({
-				bind = true, -- This is mandatory, otherwise border config won't get registered.
-				handler_opts = {
-					border = "single",
-				},
-			})
-		end,
+		config = config.lsp_signature,
 	})
-	use({ "neovim/nvim-lspconfig", config = CONFIG.lspconfig })
+	use({ "neovim/nvim-lspconfig", config = config.lspconfig })
 	use({
 		"folke/trouble.nvim",
 		requires = "kyazdani42/nvim-web-devicons",
-		config = CONFIG.trouble,
+		config = config.trouble,
+	})
+
+	use({ "l3mon4d3/luasnip", config = function() end })
+	use({
+		{ "kdheepak/cmp-latex-symbols" },
+		{ "hrsh7th/cmp-cmdline" },
+		{ "hrsh7th/cmp-path" },
+		{ "hrsh7th/cmp-buffer" },
+		{ "hrsh7th/cmp-nvim-lsp" },
+		{ "hrsh7th/cmp-nvim-lua" },
 	})
 	use({
 		"hrsh7th/nvim-cmp",
-		requires = {
-
-			{ "kdheepak/cmp-latex-symbols" },
-			{ "hrsh7th/cmp-cmdline" },
-			{ "hrsh7th/cmp-path" },
-			{ "hrsh7th/cmp-buffer" },
-			{ "hrsh7th/cmp-nvim-lsp" },
-		},
-		config = CONFIG.cmp,
+		config = config.cmp,
 	})
+	use({ "saadparwaiz1/cmp_luasnip" })
+
 	use({ "simrat39/symbols-outline.nvim" })
 	--
 
-	-- UI
-	use({ "dracula/vim", as = "dracula" })
+	-- ui
 	use({ "romgrk/doom-one.vim" })
-	use({ "GustavoPrietoP/doom-themes.nvim", event = "ColorSchemePre" })
-	use({ "glepnir/dashboard-nvim", config = CONFIG.dashboard })
+	use({ "glepnir/dashboard-nvim", config = config.dashboard })
+
 	use({
-		"glepnir/galaxyline.nvim",
-		branch = "main",
-		-- your statusline
-		config = CONFIG.eviline,
-		-- some optional icons
+		"nvim-lualine/lualine.nvim",
 		requires = { "kyazdani42/nvim-web-devicons" },
+		config = config.evilinelua,
 	})
+
 	use({
 		"akinsho/bufferline.nvim",
 		requires = "kyazdani42/nvim-web-devicons",
-		config = CONFIG.bufferline,
+		config = config.bufferline,
 	})
-	use({ "Pocco81/TrueZen.nvim", config = CONFIG.zen })
+	use({ "pocco81/truezen.nvim", config = config.zen })
 
 	if packer_bootstrap then
 		require("packer").sync()

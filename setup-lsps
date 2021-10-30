@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+LSP_BIN=${HOME}/opt/bin
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}"  ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh"  ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+npm install -g bash-language-server \
+    diagnostic-languageserver \
+    dockerfile-language-server-nodejs \
+    vscode-langservers-extracted \
+    pyright \
+    typescript \
+    typescript-language-server \
+    yaml-language-server
+
+${HOME}/opt/miniconda3/bin/pip install cmake-language-server
+
+GO111MODULE=on ${HOME}/opt/go/bin/go install golang.org/x/tools/gopls@latest
+
+wget https://github.com/clangd/clangd/releases/download/13.0.0/clangd-linux-13.0.0.zip
+unzip clangd-linux-13.0.0.zip
+mv clangd_13.0.0/bin/clangd ${LSP_BIN}
+rm -r clangd_13.0.0 clangd-linux-13.0.0.zip
+curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz | gunzip -c - > ${LSP_BIN}/rust-analyzer
+chmod +x ${LSP_BIN}/rust-analyzer
+curl -L https://github.com/latex-lsp/texlab/releases/download/v3.3.0/texlab-x86_64-linux.tar.gz | tar xvzf - > ${LSP_BIN}/texlab
+chmod +x ${LSP_BIN}/texlab
+curl -L https://github.com/artempyanykh/zeta-note/releases/download/2021-08-22/zeta-note-linux > ${LSP_BIN}/zeta-note-linux
+chmod +x ${LSP_BIN}/zeta-note-linux
+mkdir tmp
+cd tmp
+wget https://github.com/sumneko/vscode-lua/releases/download/v2.4.7/lua-2.4.7.vsix
+unzip lua-2.4.7.vsix
+mv extension/server ${HOME}/opt/sumneko_lua
+chmod +x ${HOME}/opt/sumneko_lua/bin/Linux/lua-language-server
+ln -s ${HOME}/opt/sumneko_lua/bin/Linux/lua-language-server ${LSP_BIN}/
+cd -
+rm -r tmp

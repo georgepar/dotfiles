@@ -1,7 +1,6 @@
 -- Utility functions.
 -- Sources: https://github.com/NTBBloodbath/doom-nvim/doom/utils/init.lua
 
--- local lsp_installer = require("nvim-lsp-installer")
 local M = {}
 
 M.version = "1.0.0"
@@ -79,17 +78,5 @@ M.write_file = function(path, content, mode)
   end)
 end
 
---local lsp_installer = require("nvim-lsp-installer")
---lsp_installer.settings {
---  ui = {
---    icons = {
---      server_installed = "✓",
---      server_pending = "➜",
---      server_uninstalled = "✗"
---    }
---  }
---}
-
---M.install_lsp = require('nvim-lsp-installer.servers').get_server
 
 return M

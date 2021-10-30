@@ -5,16 +5,13 @@ ln -s $(pwd)/nvimrc.d ${HOME}/.config/nvim
 
 
 mkdir -p ~/.local/share/nvim/site/pack/packer/start/
-nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
 
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}"  ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh"  ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
 export PYTHONPATH=${HOME}/opt/miniconda3/lib/python3.8/site-packages/
-
-nvim +COQdeps +qall
-
+NVIM_RUNNING_FIRST_TIME_SETUP=true nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
 # mkdir -p $HOME/.config/coc
 # ln -s $(pwd)/vim/.vimrc $HOME/.vimrc

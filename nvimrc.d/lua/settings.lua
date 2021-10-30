@@ -7,22 +7,26 @@ vim.o.wrapmargin = 0
 
 -- Switch formatting for different set of files
 vim.api.nvim_command([[
-au BufNewFile,BufRead *.js, *.html, *.css
+au BufNewFile,BufRead *.html, *.css
     \ set tabstop=2
     \| set softtabstop=2
     \| set shiftwidth=2
 ]])
 
-vim.cmd([[
-augroup Format
-    autocmd!
-    autocmd BufWritePost * FormatWrite
-augroup END
-]])
+if vim.fn.getenv("NVIM_RUNNING_FIRST_TIME_SETUP") == vim.NIL then
+	vim.cmd([[autocmd VimEnter * colorscheme doom-one]])
 
-vim.cmd([[autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>]])
+	vim.cmd([[
+    augroup Format
+        autocmd!
+        autocmd BufWritePost * FormatWrite
+    augroup END
+    ]])
+	vim.cmd([[autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>]])
 
-vim.cmd([[autocmd VimEnter * colorscheme doom-one]])
--- vim.cmd[[autocmd VimEnter * colorscheme dracula]]
+	-- For some reason neogit & autopairs are not loaded by default
+	vim.cmd([[autocmd VimEnter * :PackerLoad neogit]])
+	vim.cmd([[autocmd VimEnter * :PackerLoad nvim-autopairs]])
+end
 
 vim.g.mapleader = " "
