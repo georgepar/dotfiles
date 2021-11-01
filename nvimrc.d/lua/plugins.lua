@@ -11,17 +11,12 @@ if fn.empty(fn.glob(install_path)) > 0 then
 	})
 end
 
-vim.cmd([[
-augroup packer_user_config
-autocmd!
-autocmd BufWritePost plugins.lua source <afile> | PackerCompile
-augroup end
-]])
-
 vim.cmd([[ packadd packer.nvim ]])
 
+local packer = require("packer")
+
 -- Change some defaults
-require("packer").init({
+packer.init({
 	git = {
 		clone_timeout = 300, -- 5 mins
 		subcommands = {
@@ -35,7 +30,7 @@ require("packer").init({
 	},
 })
 
-require("packer").startup(function(use)
+packer.startup(function(use)
 	local config = require("configuration")
 	-- packer can manage itself
 	use({ "wbthomason/packer.nvim" })
@@ -50,19 +45,17 @@ require("packer").startup(function(use)
 	use({
 		"nvim-treesitter/nvim-treesitter",
 		run = ":tsupdate",
-		branch = "0.5-compat",
+		-- branch = "0.5-compat",
+		branch = "master",
 		config = config.treesitter,
 	})
 
 	-- classic vim utilities
-	use({ "liuchengxu/vim-better-default", config = config.better_default })
-	use({ "tmhedberg/simpylfold", config = config.simpylfold })
 	use({ "tpope/vim-commentary" })
 	use({ "michaeljsmith/vim-indent-object" })
-	use({ "vim-scripts/indentpython.vim" })
 	use({ "mbbill/undotree" })
 	use({ "tpope/vim-surround" })
-
+	use({ "meain/vim-printer", config = config.vim_printer })
 	-- git
 	use({ "tpope/vim-fugitive" })
 	use({
@@ -81,7 +74,15 @@ require("packer").startup(function(use)
 		requires = { "sindrets/diffview.nvim" },
 		opt = false,
 	})
+
 	-- nvim utilities
+	use({ "max397574/better-escape.nvim", config = config.better_escape })
+	use({
+		"jghauser/mkdir.nvim",
+		config = function()
+			require("mkdir")
+		end,
+	})
 	use({
 		"folke/which-key.nvim",
 		config = config.whichkey,
@@ -116,26 +117,12 @@ require("packer").startup(function(use)
 		config = config.format,
 		event = "bufwinenter",
 	})
-
-	-- use({
-	-- 	"ms-jpq/coq_nvim",
-	-- 	branch = "coq",
-	-- 	event = "vimenter",
-	-- 	run = ":coqdeps",
-	-- 	config = config.coq,
-	-- })
-	-- use({ "ms-jpq/coq.artifacts", branch = "artifacts" })
-	-- use({
-	-- 	"ms-jpq/coq.thirdparty",
-	-- 	branch = "3p",
-	-- 	config = config.coq3p,
-	-- })
-
 	use({
 		"ray-x/lsp_signature.nvim",
 		config = config.lsp_signature,
 	})
 	use({ "neovim/nvim-lspconfig", config = config.lspconfig })
+	use({ "onsails/lspkind-nvim" })
 	use({
 		"folke/trouble.nvim",
 		requires = "kyazdani42/nvim-web-devicons",
@@ -158,10 +145,16 @@ require("packer").startup(function(use)
 	use({ "saadparwaiz1/cmp_luasnip" })
 
 	use({ "simrat39/symbols-outline.nvim" })
+	use({ "vim-scripts/indentpython.vim" })
+
+	use({ "michaelb/sniprun", run = "bash install.sh", config = config.sniprun })
+
 	--
 
 	-- ui
 	use({ "romgrk/doom-one.vim" })
+	use({ "marko-cerovac/material.nvim" })
+
 	use({ "glepnir/dashboard-nvim", config = config.dashboard })
 
 	use({

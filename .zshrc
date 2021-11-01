@@ -212,6 +212,7 @@ fi
 
 command -v dust > /dev/null && alias du="dust"
 command -v ranger > /dev/null && alias lf="ranger"
+command -v kitty > /dev/null && alias ssh="kitty +kitten ssh"
 
 [ -f ${HOME}/opt/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source ${HOME}/opt/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 

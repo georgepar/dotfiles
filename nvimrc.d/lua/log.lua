@@ -2,7 +2,7 @@
 -- unfortunately having to take the more complicated version directly from doom.nvim
 -- since this is broken https://github.com/tjdevries/vlog.nvim
 
-local system = require("utils")
+local system = require("utilfns")
 
 -- User configuration section
 local default_config = {

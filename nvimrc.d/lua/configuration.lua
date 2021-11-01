@@ -10,13 +10,14 @@ M.autopairs = function()
 	})
 end
 
---  vim-better-default configuration
-M.better_default = function()
-	vim.g.vim_better_default_fold_key_mapping = 0
-	vim.g.vim_better_default_file_key_mapping = 0
-	vim.g.vim_better_default_basic_key_mapping = 0
-	vim.g.vim_better_default_buffer_key_mapping = 1
-	vim.g.vim_better_default_window_key_mapping = 1
+-- better-escape.nvim configuration
+M.better_escape = function()
+	require("better_escape").setup({
+		mapping = { "jk", "kj" },
+		timeout = vim.o.timeoutlen,
+		clear_empty_lines = false,
+		keys = "<Esc>",
+	})
 end
 
 -- bufferline.nvim configuration
@@ -84,11 +85,14 @@ M.cmp = function()
 		return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 	end
 
+	local lspkind = require("lspkind")
+	lspkind.init()
+
 	cmp.setup({
-		-- experimental = {
-		-- 	-- ghost_text = true,
-		-- 	active_preview = true,
-		-- },
+		experimental = {
+			ghost_text = true,
+			active_preview = true,
+		},
 		completion = {
 			autocomplete = true,
 		},
@@ -138,11 +142,33 @@ M.cmp = function()
 			["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
 			["<C-d>"] = cmp.mapping.scroll_docs(-4),
 			["<C-f>"] = cmp.mapping.scroll_docs(4),
+			["<C-y>"] = cmp.mapping(
+				cmp.mapping.confirm({
+					behavior = cmp.ConfirmBehavior.Insert,
+					select = true,
+				}),
+				{ "i", "c" }
+			),
 			-- ["<C-x>"] = cmp.mapping.complete(),
-			["<C-e>"] = cmp.mapping.abort(),
+			["<C-e>"] = cmp.mapping.close(),
 			["<CR>"] = cmp.mapping.confirm({
 				behavior = cmp.ConfirmBehavior.Replace,
 				select = true,
+			}),
+		},
+		formatting = {
+			-- Youtube: How to set up nice formatting for your sources.
+			format = lspkind.cmp_format({
+				with_text = true,
+				menu = {
+					buffer = "[buf]",
+					nvim_lsp = "[LSP]",
+					nvim_lua = "[api]",
+					path = "[path]",
+					luasnip = "[snip]",
+					gh_issues = "[issues]",
+					tn = "[TabNine]",
+				},
 			}),
 		},
 	})
@@ -174,6 +200,7 @@ M.dashboard = function()
 		shortcut_color = "#a9a1e1",
 		footer_color = "#586268",
 	}
+
 	vim.g.dashboard_custom_header = {
 		"███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗",
 		"████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║",
@@ -183,12 +210,26 @@ M.dashboard = function()
 		"██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║",
 		"╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝",
 	}
+
 	vim.g.dashboard_default_executive = "telescope"
 
 	vim.cmd("hi! dashboardHeader   guifg=" .. dashboard_custom_colors.header_color)
 	vim.cmd("hi! dashboardCenter   guifg=" .. dashboard_custom_colors.center_color)
 	vim.cmd("hi! dashboardShortcut guifg=" .. dashboard_custom_colors.shortcut_color)
 	vim.cmd("hi! dashboardFooter   guifg=" .. dashboard_custom_colors.footer_color)
+
+	require("which-key").register(require("keymap").leaderkm.dashboard, { prefix = "<leader>" })
+
+	vim.g.dashboard_custom_shortcut = {
+		["last_session"] = "SPC s L",
+		["Current directory_session"] = "SPC s l",
+		["find_history"] = "SPC s h",
+		["find_file"] = "SPC s o",
+		["new_file"] = "SPC s n",
+		["change_colorscheme"] = "SPC s c",
+		["book_marks"] = "SPC s b",
+		["find_word"] = "SPC s /",
+	}
 end
 
 -- lualine.nvim evil configuration
@@ -509,31 +550,17 @@ end
 
 -- gitsigns.nvim configuration
 M.gitsigns = function()
-	require("which-key").register({
-		["g"] = {
-			name = "+git",
-			["g"] = { ":Neogit<cr>", "neogit" },
-			["d"] = { ":DiffviewOpen<cr>", "git-diff" },
-			["D"] = { ":DiffviewOpen master<cr>", "git-diff-master" },
-			["l"] = { ":Neogit log<cr>", "git-log" },
-			["p"] = { ":Neogit pull<cr>", "git-pull" },
-			["P"] = { ":Neogit push<cr>", "git-push" },
-			["]"] = { "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'", "next-hunk" },
-			["["] = { "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'", "prev-hunk" },
-			["s"] = { '<cmd>lua require"gitsigns".stage_hunk()<CR>', "stage-hunk" },
-			["u"] = { '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>', "unstage-hunk" },
-			["r"] = { '<cmd>lua require"gitsigns".reset_hunk()<CR>', "reset-hunk" },
-			["R"] = { '<cmd>lua require"gitsigns".reset_buffer()<CR>', "reset-buffer" },
-			["v"] = { '<cmd>lua require"gitsigns".preview_hunk()<CR>', "preview-hunk" },
-			["b"] = { '<cmd>lua require"gitsigns".blame_line(true)<CR>', "blame-line" },
-			["S"] = { '<cmd>lua require"gitsigns".stage_buffer()<CR>', "stage-buffer" },
-			["U"] = { '<cmd>lua require"gitsigns".reset_buffer_index()<CR>', "reset-buffer" },
-		},
-	}, {
-		prefix = "<leader>",
-	})
+	require("which-key").register(require("keymap").leaderkm.git, { prefix = "<leader>" })
 
 	require("gitsigns").setup({
+		signcolumn = true,
+		numhl = false,
+		current_line_blame = true,
+		current_line_blame_opts = {
+			virt_text = true,
+			virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
+			delay = 100,
+		},
 		keymaps = {
 			-- Default keymap options
 			noremap = true,
@@ -632,26 +659,7 @@ M.lspconfig = function()
 			end
 
 			buf_setopt("omnifunc", "v:lua.vim.lsp.omnifunc")
-			require("which-key").register({
-				["c"] = {
-					name = "+code",
-					["H"] = { "<cmd>lua vim.lsp.buf.hover()<CR>", "hover-text" },
-					["d"] = { ":Telescope lsp_definitions<cr>", "find-definitions" },
-					["r"] = { ":Telescope lsp_references<cr>", "find-references" },
-					["D"] = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "goto-declaration" },
-					["i"] = { ":Telescope lsp_implementations<cr>", "find-implementations" },
-					["h"] = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "signature-help" },
-					["E"] = { ":Trouble lsp_workspace_diagnostics<cr>", "workspace-diagnostics" },
-					["e"] = { ":Trouble lsp_document_diagnostics<cr>", "document-diagnostics" },
-					["a"] = { ":Telescope lsp_code_actions<cr>", "code-actions" },
-					["R"] = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename" },
-					["t"] = { ":Telescope lsp_type_definitions<cr>", "type-definitions" },
-					["s"] = { ":SymbolsOutline<cr>", "document-symbols" },
-					["S"] = { ":Telescope lsp_workspace_symbols<cr>", "workspace-symbols" },
-					["q"] = { ":Trouble quickfix<cr>", "quickfix" },
-					["l"] = { ":Trouble loclist<cr>", "location-list" },
-				},
-			}, {
+			require("which-key").register(require("keymap").leaderkm.code, {
 				prefix = "<leader>",
 				buffer = bufnr,
 			})
@@ -706,44 +714,19 @@ end
 
 M.persistence = function()
 	require("persistence").setup({ dir = vim.fn.stdpath("data") .. "/sessions/" })
-	require("which-key").register({
-		["s"] = {
-			name = "+session",
-			["s"] = { '<cmd>lua require("persistence").load()<cr>', "restore-curr-dir-session" },
-			["l"] = { '<cmd>lua require("persistence").load({ last = true })<cr>', "restore-last-session" },
-		},
-	})
 end
 
--- SimpylFold configuration
-M.simpylfold = function()
-	vim.g.SimpylFold_docstring_preview = 1
+-- sniprun.nvim configuration
+M.sniprun = function()
+	require("sniprun").setup({
+		selected_interpreters = { "Python3_fifo" },
+		repl_enable = { "Python3_fifo" },
+	})
 end
 
 -- telescope.nvim configuration
 M.telescope = function()
-	require("which-key").register({
-		["f"] = {
-			name = "+find",
-			["B"] = { ":Telescope buffers<cr>", "buffers" },
-			["b"] = { ":Telescope current_buffer_fuzzy_find<cr>", "current-buffer" },
-			["m"] = { ":Telescope man_pages<cr>", "man-pages" },
-			["f"] = { ":Telescope find_files<cr>", "files" },
-			["F"] = { ":Telescope file_browser<cr>", "file-browser" },
-			["c"] = { ":Telescope git_commits<cr>", "commits" },
-			["C"] = { ":Telescope git_bcommits<cr>", "buffer-commits" },
-			["s"] = { ":Telescope git_status<cr>", "modified-files" },
-			["t"] = { ":Telescope treesitter<cr>", "treesitter" },
-			["x"] = { ":Telescope command_history<cr>", "command-history" },
-			["/"] = { ":Telescope live_grep<cr>", "grep" },
-			["y"] = { ":Telescope registers<cr>", "recent-yanks" },
-			["H"] = { ":Telescope help_tags<cr>", "recent-files" },
-			["h"] = { ":Telescope search_history<cr>", "search-history" },
-			["g"] = { ":Telescope git_files<cr>", "git-files" },
-		},
-	}, {
-		prefix = "<leader>",
-	})
+	require("which-key").register(require("keymap").leaderkm.telescope, { prefix = "<leader>" })
 end
 
 -- toggleterm.nvim configuration
@@ -780,7 +763,7 @@ M.treesitter = function()
 				init_selection = "gs",
 				node_incremental = "gh",
 				node_decremental = "gH",
-				scope_incremental = "gj",
+				scope_incremental = "gl",
 			},
 		},
 		highlight = { enable = true },
@@ -943,23 +926,7 @@ M.whichkey = function()
 		triggers = "auto", -- automatically setup triggers
 	})
 
-	local mappings = {
-		["<leader>"] = { "<Nop>", "leave-pane" },
-		["q"] = {
-			name = "+quit",
-			["q"] = { ":qa!<cr>", "quit-all" },
-			["w"] = { ":wqa!<cr>", "write-quit-all" },
-		},
-		["/"] = {
-			name = "+comment",
-			["/"] = { ":Commentary<cr>", "comment-line" },
-		},
-		["p"] = { ":setlocal paste!<cr>", "set-paste" },
-		["t"] = { ":ToggleTerm<cr>", "terminal" },
-		["r"] = { '<cmd>lua require("runner").run_code()<CR>', "run-code" },
-	}
-
-	wk.register(mappings, { prefix = "<leader>" })
+	wk.register(require("keymap").leaderkm.base, { prefix = "<leader>" })
 end
 
 -- TrueZen.nvim configuration
@@ -1009,6 +976,17 @@ M.zen = function()
 			on_off_commands = false,
 			ui_elements_commands = false,
 			cursor_by_mode = false,
+		},
+	})
+end
+
+M.vim_printer = function()
+	vim.g.vim_printer_print_below_keybinding = ",p"
+	vim.g.vim_printer_print_above_keybinding = ",P"
+	require("which-key").register({
+		[","] = {
+			["p"] = { "Insert print line below" },
+			["P"] = { "Insert print line above" },
 		},
 	})
 end
