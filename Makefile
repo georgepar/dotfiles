@@ -14,7 +14,7 @@ all: deps configall my-python-deps
 deps: must-have-deps nice-to-have-deps
 system-deps: basic-system-deps extra-system-deps
 must-have-deps: initialize nvm miniconda rust go nvim fzf python-deps lsps
-nice-to-have-deps: rust-utils reredirect colorscripts lf cheat
+nice-to-have-deps: rust-utils reredirect colorscripts lf cheat neuron
 
 configall: config config-optional
 config: config-zsh config-git config-tmux config-vim
@@ -34,6 +34,10 @@ go:
 
 clean-go:
 	rm -rf $(LOCAL)/go || echo "Nothing to clean for go"
+
+neuron:
+	wget https://github.com/srid/neuron/releases/download/1.9.35.0/neuron -O $(LOCALBIN)/neuron
+	chmod +x $(LOCALBIN)/neuron
 
 
 rust:

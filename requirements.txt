@@ -22,3 +22,11 @@ isort
 mkdocs
 mkdocs-material
 mkdocstrings
+pynvim
+jupyter_client
+ueberzug
+Pillow
+cairosvg
+pnglatex
+plotly
+kaleido

@@ -546,6 +546,14 @@ M.format = function()
 			},
 		},
 	})
+
+	vim.cmd([[
+    augroup Format
+        autocmd!
+        autocmd BufWritePost * FormatWrite
+    augroup END
+    ]])
+	vim.cmd([[autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>]])
 end
 
 -- gitsigns.nvim configuration
@@ -710,6 +718,14 @@ M.lspconfig = function()
 		signs = true,
 		update_in_insert = false,
 	})
+end
+
+-- magma.nvim configuration
+M.magma = function()
+	vim.g.magma_automatically_open_output = true
+
+	require("which-key").register(require("keymap").leaderkm.magma, { prefix = "<leader>", mode = "n" })
+	require("which-key").register(require("keymap").leaderkm.magma_x, { prefix = "<leader>", mode = "x" })
 end
 
 M.persistence = function()

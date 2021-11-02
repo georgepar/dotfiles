@@ -147,7 +147,10 @@ packer.startup(function(use)
 	use({ "simrat39/symbols-outline.nvim" })
 	use({ "vim-scripts/indentpython.vim" })
 
+	-- Code Runners
+	use({ "rcarriga/nvim-notify" })
 	use({ "michaelb/sniprun", run = "bash install.sh", config = config.sniprun })
+	use({ "dccsillag/magma-nvim", run = ":UpdateRemotePlugins", config = config.magma })
 
 	--
 

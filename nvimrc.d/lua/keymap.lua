@@ -131,6 +131,23 @@ M.leaderkm.dashboard = {
 	},
 }
 
+M.leaderkm.magma = {
+	["j"] = {
+		name = "+jupyter",
+		["p"] = { ":MagmaShowOutput<CR>", "print-output" },
+		["c"] = { ":MagmaReevaluateCell<CR>", "evaluate-cell-again" },
+		["j"] = { ":MagmaEvaluateLine<CR>", "evaluate-line" },
+		["s"] = { ":MagmaInit<CR>", "start-jupyter-client" },
+	},
+}
+
+M.leaderkm.magma_x = {
+	["j"] = {
+		name = "+jupyter",
+		["j"] = { ":<C-u>MagmaEvaluateVisual<CR>", "evaluate-visual" },
+	},
+}
+
 M.leaderkm.base = {
 	["<leader>"] = { "<nop>", "leave-pane" },
 	["q"] = {

@@ -80,17 +80,10 @@ if vim.fn.getenv("NVIM_RUNNING_FIRST_TIME_SETUP") == vim.NIL then
 	-- vim.g.material_style = "palenight"
 	-- vim.cmd([[autocmd VimEnter * colorscheme material]])
 
-	vim.cmd([[
-    augroup Format
-        autocmd!
-        autocmd BufWritePost * FormatWrite
-    augroup END
-    ]])
-	vim.cmd([[autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>]])
-
-	-- For some reason neogit & autopairs are not loaded by default
+	-- For some reason not loaded on startup
 	vim.cmd([[autocmd VimEnter * :PackerLoad neogit]])
 	vim.cmd([[autocmd VimEnter * :PackerLoad nvim-autopairs]])
+
 end
 
 vim.cmd([[
