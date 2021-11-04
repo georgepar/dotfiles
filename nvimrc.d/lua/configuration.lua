@@ -546,14 +546,6 @@ M.format = function()
 			},
 		},
 	})
-
-	vim.cmd([[
-    augroup Format
-        autocmd!
-        autocmd BufWritePost * FormatWrite
-    augroup END
-    ]])
-	vim.cmd([[autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>]])
 end
 
 -- gitsigns.nvim configuration
