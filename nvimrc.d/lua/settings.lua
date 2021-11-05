@@ -69,10 +69,7 @@ vim.cmd([[
 
 -- Switch formatting for different set of files
 vim.api.nvim_command([[
-au BufNewFile,BufRead *.html, *.css
-    \ set tabstop=2
-    \| set softtabstop=2
-    \| set shiftwidth=2
+au BufNewFile,BufRead *.html,*.css set tabstop=2 | set softtabstop=2 | set shiftwidth=2
 ]])
 
 if vim.fn.getenv("NVIM_RUNNING_FIRST_TIME_SETUP") == vim.NIL then
