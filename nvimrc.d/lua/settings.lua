@@ -84,6 +84,13 @@ if vim.fn.getenv("NVIM_RUNNING_FIRST_TIME_SETUP") == vim.NIL then
 	vim.cmd([[autocmd VimEnter * :PackerLoad neogit]])
 	vim.cmd([[autocmd VimEnter * :PackerLoad nvim-autopairs]])
 
+	vim.cmd([[
+    augroup Format
+        autocmd!
+        autocmd BufWritePost * FormatWrite
+    augroup END
+    ]])
+	vim.cmd([[autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>]])
 end
 
 vim.cmd([[

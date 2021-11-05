@@ -546,19 +546,12 @@ M.format = function()
 			},
 		},
 	})
-
-	vim.cmd([[
-    augroup Format
-        autocmd!
-        autocmd BufWritePost * FormatWrite
-    augroup END
-    ]])
-	vim.cmd([[autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>]])
 end
 
 -- gitsigns.nvim configuration
 M.gitsigns = function()
-	require("which-key").register(require("keymap").leaderkm.git, { prefix = "<leader>" })
+	require("which-key").register(require("keymap").leaderkm.git, { prefix = "<leader>", mode = "n" })
+	require("which-key").register(require("keymap").leaderkm.gitvisual, { prefix = "<leader>", mode = "v" })
 
 	require("gitsigns").setup({
 		signcolumn = true,
@@ -572,7 +565,6 @@ M.gitsigns = function()
 		keymaps = {
 			-- Default keymap options
 			noremap = true,
-
 			["n ]c"] = {
 				expr = true,
 				"&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'",
@@ -831,8 +823,8 @@ M.treesitter = function()
 				enable = true,
 				border = "none",
 				peek_definition_code = {
-					["<leader>df"] = "@function.outer",
-					["<leader>dF"] = "@class.outer",
+					["<leader>cp"] = "@function.outer",
+					["<leader>cP"] = "@class.outer",
 				},
 			},
 			move = {

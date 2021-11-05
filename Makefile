@@ -14,7 +14,7 @@ all: deps configall my-python-deps
 deps: must-have-deps nice-to-have-deps
 system-deps: basic-system-deps extra-system-deps
 must-have-deps: initialize nvm miniconda rust go nvim fzf python-deps lsps
-nice-to-have-deps: rust-utils reredirect colorscripts lf cheat neuron
+nice-to-have-deps: rust-utils reredirect colorscripts lf cheat
 
 configall: config config-optional
 config: config-zsh config-git config-tmux config-vim
@@ -29,16 +29,26 @@ initialize:
 clean-local:
 	rm -rf $(LOCAL)
 
+shellcheck:
+	wget https://github.com/koalaman/shellcheck/releases/download/stable/shellcheck-stable.linux.x86_64.tar.xz
+	tar xvf shellcheck-stable.linux.x86_64.tar.xz
+	mv shellcheck-stable/shellcheck $(LOCALBIN)/shellcheck
+	chmod +x $(LOCALBIN)/shellcheck
+	rm -r shellcheck-stable shellcheck-stable.linux.x86_64.tar.xz
+
 go:
 	wget -qO- https://dl.google.com/go/go$(GO_VERSION).linux-amd64.tar.gz | tar xzv -C ~/opt/
+
+glow:
+	wget https://github.com/charmbracelet/glow/releases/download/v1.4.1/glow_1.4.1_linux_x86_64.tar.gz -O /tmp/glow.tar.gz
+	cd /tmp && tar xvf glow.tar.gz && mv glow $(LOCALBIN)/ && rm glow.tar.gz && cd -
 
 clean-go:
 	rm -rf $(LOCAL)/go || echo "Nothing to clean for go"
 
-neuron:
-	wget https://github.com/srid/neuron/releases/download/1.9.35.0/neuron -O $(LOCALBIN)/neuron
-	chmod +x $(LOCALBIN)/neuron
-
+obsidian:
+	wget https://github.com/obsidianmd/obsidian-releases/releases/download/v0.12.19/Obsidian-0.12.19.AppImage -O $(LOCALBIN)/obsidian
+	chmod +x $(LOCALBIN)/obsidian
 
 rust:
 	curl https://sh.rustup.rs -sSf | sh -s -- -y

@@ -55,8 +55,6 @@ M.leaderkm.git = {
 		["l"] = { ":Neogit log<cr>", "git-log" },
 		["p"] = { ":Neogit pull<cr>", "git-pull" },
 		["P"] = { ":Neogit push<cr>", "git-push" },
-		["]"] = { "&diff ? ']c' : ':Gitsigns next_hunk<CR>'", "next-hunk" },
-		["["] = { "&diff ? '[c' : ':Gitsigns prev_hunk<CR>'", "prev-hunk" },
 		["s"] = { '<cmd>lua require"gitsigns".stage_hunk()<CR>', "stage-hunk" },
 		["u"] = { '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>', "unstage-hunk" },
 		["r"] = { '<cmd>lua require"gitsigns".reset_hunk()<CR>', "reset-hunk" },
@@ -67,6 +65,14 @@ M.leaderkm.git = {
 		["U"] = { '<cmd>lua require"gitsigns".reset_buffer_index()<CR>', "reset-buffer" },
 	},
 }
+
+M.leaderkm.gitvisual = {
+	["g"] = {
+		["s"] = { "stage-hunk" },
+		["r"] = { "reset-hunk" },
+	},
+}
+
 M.leaderkm.code = {
 	["c"] = {
 		name = "+code",
@@ -86,6 +92,8 @@ M.leaderkm.code = {
 		["q"] = { ":Trouble quickfix<cr>", "quickfix" },
 		["l"] = { ":Trouble loclist<cr>", "location-list" },
 		["x"] = { ":<cmd>lua require'sniprun'.run('v')<cr>", "run-snippet" },
+		["p"] = { "peek-definition-function" }, -- Defined by treesitter-textobjects
+		["P"] = { "peek-definition-class" }, -- Defined by treesitter-textobjects
 	},
 }
 
@@ -161,7 +169,6 @@ M.leaderkm.base = {
 	},
 	["p"] = { ":setlocal paste!<cr>", "set-paste" },
 	["t"] = { ":toggleterm<cr>", "terminal" },
-	["r"] = { '<cmd>lua require("runner").run_code()<cr>', "run-code" },
 	["b"] = {
 		name = "+buffer",
 		["p"] = { ":bprevious<CR>", "previous" },
