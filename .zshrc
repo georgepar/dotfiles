@@ -2,6 +2,7 @@
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 
+# zmodload zsh/zprof
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -22,6 +23,7 @@ ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="powerlevel10k"
+# ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -81,7 +83,12 @@ ZSH_THEME="powerlevel10k"
 #TERM=xterm-256color
 command -v kitty > /dev/null && TERM=kitty || TERM=xterm-256color
 
+
+export NVM_LAZY_LOAD=true
+export NVM_COMPLETION=false
+
 plugins=(
+    zsh-nvm
     git
     alias-finder
     autopep8
@@ -171,9 +178,6 @@ command -v nvim > /dev/null && alias vim=nvim
 
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
 
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}"  ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh"  ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-
 [ -d /usr/lib/cuda ] && export CUDA_PATH=/usr/lib/cuda/ || export CUDA_PATH=/usr/local/cuda/
 
 export PATH=${PATH}:${CUDA_PATH}/bin
@@ -185,19 +189,53 @@ export GOPATH=${HOME}/go
 export PATH=${GOROOT}/bin:${GOPATH}/bin:${PATH}
 
 
+lazy_conda_aliases=('python' 'conda')
+
+load_conda() {
+  for lazy_conda_alias in $lazy_conda_aliases
+  do
+    unalias $lazy_conda_alias
+  done
+
+  __conda_prefix="$HOME/opt/miniconda3" # Set your conda Location
+
+  # >>> conda initialize >>>
+  __conda_setup="$("$__conda_prefix/bin/conda" 'shell.bash' 'hook' 2> /dev/null)"
+  if [ $? -eq 0 ]; then
+      eval "$__conda_setup"
+  else
+      if [ -f "$__conda_prefix/etc/profile.d/conda.sh" ]; then
+          . "$__conda_prefix/etc/profile.d/conda.sh"
+      else
+          export PATH="$__conda_prefix/bin:$PATH"
+      fi
+  fi
+  unset __conda_setup
+  # <<< conda initialize <<<
+
+  unset __conda_prefix
+  unfunction load_conda
+}
+
+for lazy_conda_alias in $lazy_conda_aliases
+do
+  alias $lazy_conda_alias="load_conda && $lazy_conda_alias"
+done
+
+
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/geopar/opt/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/geopar/opt/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/geopar/opt/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/geopar/opt/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
+# __conda_setup="$('/home/geopar/opt/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+# if [ $? -eq 0 ]; then
+#     eval "$__conda_setup"
+# else
+#     if [ -f "/home/geopar/opt/miniconda3/etc/profile.d/conda.sh" ]; then
+#         . "/home/geopar/opt/miniconda3/etc/profile.d/conda.sh"
+#     else
+#         export PATH="/home/geopar/opt/miniconda3/bin:$PATH"
+#     fi
+# fi
+# unset __conda_setup
 # <<< conda initialize <<<
 #
 #
@@ -217,7 +255,7 @@ command -v kitty > /dev/null && alias ssh="kitty +kitten ssh"
 [ -f ${HOME}/opt/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source ${HOME}/opt/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 
-[ -f ${HOME}/opt/bin/colorscript ] && colorscript -e space-invaders
+# [ -f ${HOME}/opt/bin/colorscript ] && colorscript -e space-invaders
 
 [ -f ${HOME}/opt/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh ] && source ${HOME}/opt/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh
 
@@ -229,3 +267,10 @@ then
      eval "$(zoxide init zsh)"
      alias cd=z
 fi
+
+# export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}"  ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+# [ -s "$NVM_DIR/nvm.sh"  ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+
+
+# zprof
