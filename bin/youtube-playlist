@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+
+cd ${HOME}/Music/playlists && mpv $(rg -L youtube | ${HOME}/opt/bin/fzf --sync | cut -d, -f2)
