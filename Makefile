@@ -5,7 +5,6 @@ CHEAT_VERSION=4.0.4
 CHEAT_BINARY=$(LOCALBIN)/cheat
 GO_VERSION=1.17.2
 MINICONDA_VERSION=4.10.3
-PACKAGE_MANAGER=apt-get install -y
 
 
 .ONESHELL:
@@ -76,10 +75,11 @@ clean-fzf:
 	rm $(LOCALBIN)/fzf-tmux || echo "Nothing to clean for fzf"
 
 basic-system-deps:
-	$(PACKAGE_MANAGER) git curl wget build-essential cmake unzip tmux
+	pacman -S git curl wget base base-devel cmake unzip tmux awesome xterm
 
 extra-system-deps:
-	$(PACKAGE_MANAGER) git-lfs imagemagick direnv zsh taskwarrior kitty ffmpeg sox
+	pacman -S git-lfs imagemagick alacritty ffmpeg sox
+	yay -S direnv
 
 rust-utils:
 	$(HOME)/.cargo/bin/cargo install du-dust fd-find exa ripgrep git-delta bat procs grex cargo-cache

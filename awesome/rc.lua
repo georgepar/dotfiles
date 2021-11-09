@@ -69,7 +69,7 @@ local modkey1      = "Control"
 -- personal variables
 local browser           = "brave"
 local editor            = os.getenv("EDITOR") or "nvim"
-local editorgui         = "emacs"
+local editorgui         = "emacsclient -c"
 local filemanager       = "alacritty -e ranger"
 local terminal          = "alacritty"
 
@@ -79,11 +79,11 @@ awful.util.terminal = terminal
 awful.util.tagnames = {
         " terminal ",
         " globe-europe " ,
+        " comment-dots ",
+        " envelope ",
         " code ",
         " bug ",
         " laptop-code ",
-        " comment-dots ",
-        " envelope ",
         " book-open ",
         " music "
     }
@@ -216,7 +216,7 @@ globalkeys = my_table.join(
     awful.key({ modkey }, "s", function () awful.spawn("slack") end,
         {description = "slack" , group = "applications" }),
 
-    awful.key({ modkey }, "s", function () awful.spawn("teams") end,
+    awful.key({ modkey }, "t", function () awful.spawn("teams") end,
         {description = "teams" , group = "applications" }),
 
     awful.key({ modkey }, "f", function () awful.spawn(filemanager) end,
@@ -612,8 +612,3 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 awful.spawn.with_shell("~/.config/awesome/autorun.sh")
 awful.spawn.with_shell("nitrogen --restore")
 awful.spawn.with_shell("picom --config  $HOME/.config/picom/picom.conf")
--- awful.spawn.with_shell("light-locker")
--- awful.spawn.with_shell("nm-applet")
--- awful.spawn.with_shell("volumeicon")
--- awful.spawn.with_shell("xfsettingsd")
--- awful.spawn.with_shell("xfce4-power-manager")

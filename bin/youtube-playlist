@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 
-
-cd ${HOME}/Music/playlists && mpv $(rg -L youtube | ${HOME}/opt/bin/fzf --sync | cut -d, -f2)
+RANDOM_IMAGE=$(find ${HOME}/Pictures/wallpapers -name "*.jpg" |shuf -n1)
+PLAYLIST_SELECT=$(cd ${HOME}/Music/playlists && rg -L youtube | ${HOME}/opt/bin/fzf --sync | cut -d, -f2)
+mpv --external-file=${RANDOM_IMAGE} --image-display-duration=inf --ytdl-format=bestaudio/best --vid=1 ${PLAYLIST_SELECT}

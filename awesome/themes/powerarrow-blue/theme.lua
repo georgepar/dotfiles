@@ -17,7 +17,7 @@ local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
 
 local theme                                     = {}
 theme.dir                                       = os.getenv("HOME") .. "/.config/awesome/themes/powerarrow-blue"
-theme.font                                      = "Roboto Mono Medium 10"
+theme.font                                      = "Source Code Pro 12"
 theme.taglist_font                              = "Font Awesome 5 Free Solid 14"
 theme.fg_normal                                 = "#ffffff"
 theme.fg_blue                                   = "#174DCB"
@@ -106,7 +106,8 @@ local clockicon = wibox.widget.imagebox(theme.widget_clock)
 local clock = awful.widget.watch(
     "date +'%a %d %b %R'", 60,
     function(widget, stdout)
-        widget:set_markup(" " .. markup.font(theme.font, stdout))
+        -- widget:set_markup(" " .. markup.font(theme.font, stdout))
+        widget:set_markup(" " .. markup.font("Source Code Pro 16", stdout))
     end
 )
 
@@ -114,7 +115,7 @@ local clock = awful.widget.watch(
 theme.cal = lain.widget.cal({
     attach_to = { clock },
     notification_preset = {
-        font = "Roboto Mono Medium 10",
+        font = "Source Code Pro 16",
         fg   = theme.fg_blue,
         bg   = theme.bg_normal
     }
