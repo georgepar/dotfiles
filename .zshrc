@@ -9,13 +9,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 # If you come from bash you might have to change your $PATH.
 
-# NODE_VERSION=v17.0.1
-# Just need nvm for the installed utilities / LSPs
-# Setting the path is enough since it adds significant delay in
-# terminal loading time
-# version is hardcoded & ugly but it's enough
-# export PATH=${PATH}:/home/geopar/.nvm/versions/node/${NODE_VERSION}/bin
-
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_DISABLE_COMPFIX=true
@@ -100,9 +93,7 @@ alias fix-keyboard='setxkbmap "us,gr" -variant ",simple" -option "grp:alt_shift_
 # Generated for envman. Do not edit.
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
-# fix-keyboard
 neofetch
-# [[ -s $HOME/.nvm/nvm.sh ]] && source $HOME/.nvm/nvm.sh
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
