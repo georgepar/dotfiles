@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+PLAYLIST_SELECT=$(cat ${HOME}/Music/playlists/spotify | rofi -dmenu | cut -d, -f2)
+spt play --uri $PLAYLIST_SELECT

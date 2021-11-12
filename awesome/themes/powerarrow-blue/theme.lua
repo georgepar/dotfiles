@@ -17,8 +17,8 @@ local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
 
 local theme                                     = {}
 theme.dir                                       = os.getenv("HOME") .. "/.config/awesome/themes/powerarrow-blue"
-theme.font                                      = "Source Code Pro 12"
-theme.taglist_font                              = "Font Awesome 5 Free Solid 14"
+theme.font                                      = "Source Code Pro 10"
+theme.taglist_font                              = "Font Awesome 5 Free Solid 12"
 theme.fg_normal                                 = "#ffffff"
 theme.fg_blue                                   = "#174DCB"
 theme.fg_magenta                                = "#CC00CC"
@@ -107,7 +107,7 @@ local clock = awful.widget.watch(
     "date +'%a %d %b %R'", 60,
     function(widget, stdout)
         -- widget:set_markup(" " .. markup.font(theme.font, stdout))
-        widget:set_markup(" " .. markup.font("Source Code Pro 16", stdout))
+        widget:set_markup(" " .. markup.font("Source Code Pro 14", stdout))
     end
 )
 
@@ -243,7 +243,7 @@ local function worker(user_args)
 
     batteryarc_widget = wibox.widget {
         text_with_background,
-        max_value = 100,
+        max_value = 101,
         rounded_edge = true,
         thickness = arc_thickness,
         start_angle = 4.71238898, -- 2pi*3/4
@@ -415,11 +415,11 @@ function theme.at_screen_connect(s)
             s.mypromptbox,
             spr,
         },
-            wibox.container.background(wibox.container.margin(clock, 495, 8)),
+            wibox.container.background(wibox.container.margin(clock, 525, 8)),
         -- s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            wibox.container.background(wibox.container.margin(wibox.widget { theme.volume.widget, layout = wibox.layout.align.horizontal }, 2, 3)),
+            -- wibox.container.background(wibox.container.margin(wibox.widget { theme.volume.widget, layout = wibox.layout.align.horizontal }, 2, 3)),
             vert_sep,
             vert_sep,
             wibox.container.background(wibox.container.margin(wibox.widget.systray { layout = wibox.layout.align.horizontal }, 8, 4)),

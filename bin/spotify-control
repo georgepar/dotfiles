@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+OPTIONS="next\nprevious\nrepeat\nshuffle\nstatus\ntoggle"
+
+OPT=$(echo -e $OPTIONS | fzf)
+
+spt pb --${OPT}

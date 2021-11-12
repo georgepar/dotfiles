@@ -9,32 +9,12 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 # If you come from bash you might have to change your $PATH.
 
-export LANG=en_US.UTF-8
-export PATH=${HOME}/opt/bin:${HOME}/.local/bin/:$PATH
-export PATH=${HOME}/.cargo/bin:${PATH}
-export KALDI_ROOT=${HOME}/projects/kaldi
-if [ -f ${KALDI_ROOT}/tools/env.sh ]
-then
-    source  ${KALDI_ROOT}/tools/env.sh
-    source  ${KALDI_ROOT}/tools/config/common_path.sh
-    export PATH=$PWD/utils/:$KALDI_ROOT/tools/openfst/bin:$PWD:$PATH
-fi
-export GOROOT=${HOME}/opt/go
-export GOPATH=${HOME}/go
-export PATH=${GOROOT}/bin:${GOPATH}/bin:${PATH}
-
-[ -d /usr/lib/cuda ] && export CUDA_PATH=/usr/lib/cuda/ || export CUDA_PATH=/usr/local/cuda/
-export PATH=${PATH}:${CUDA_PATH}/bin
-export MKLROOT=/opt/intel/mkl
-
 # NODE_VERSION=v17.0.1
 # Just need nvm for the installed utilities / LSPs
 # Setting the path is enough since it adds significant delay in
 # terminal loading time
 # version is hardcoded & ugly but it's enough
 # export PATH=${PATH}:/home/geopar/.nvm/versions/node/${NODE_VERSION}/bin
-
-export NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -53,11 +33,7 @@ HYPHEN_INSENSITIVE="true"
 
 command -v kitty > /dev/null && TERM=kitty || TERM=xterm-256color
 
-export NVM_LAZY_LOAD=false
-export NVM_COMPLETION=false
-
 plugins=(
-    # zsh-nvm
     zsh-vi-mode
     git
     colored-man-pages
@@ -87,25 +63,9 @@ ZSH_TMUX_AUTOSTART_ONCE=false
 ZSH_TMUX_AUTOCONNECT=false
 ZSH_TMUX_AUTOQUIT=false
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 [ -f ${HOME}/opt/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source ${HOME}/opt/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/geopar/opt/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/geopar/opt/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/geopar/opt/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/geopar/opt/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
 
 
 command -v nvim > /dev/null && export EDITOR='nvim' || export EDITOR="vim"
@@ -133,11 +93,31 @@ alias doomsync="~/.emacs.d/bin/doom sync"
 alias doomdoctor="~/.emacs.d/bin/doom doctor"
 
 alias download_playlist='youtube-dl --ignore-errors --format bestaudio --extract-audio --audio-format mp3 --audio-quality 160K --output "%(title)s.%(ext)s" --yes-playlist'
+alias mpvyt="mpv --no-config --script-opts=ytdl_hook-ytdl_path=yt-dlp --msg-level=all=no,ytdl_hook=trace"
+alias fix-keyboard='setxkbmap "us,gr" -variant ",simple" -option "grp:alt_shift_toggle"'
+
 
 # Generated for envman. Do not edit.
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
+# fix-keyboard
 neofetch
+# [[ -s $HOME/.nvm/nvm.sh ]] && source $HOME/.nvm/nvm.sh
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/geopar/opt/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/geopar/opt/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/geopar/opt/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/geopar/opt/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
 
 # zprof
-

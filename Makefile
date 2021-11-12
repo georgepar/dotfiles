@@ -12,14 +12,14 @@ MINICONDA_VERSION=4.10.3
 all: deps configall my-python-deps
 deps: must-have-deps nice-to-have-deps
 system-deps: basic-system-deps extra-system-deps
-must-have-deps: initialize nvm miniconda rust go nvim fzf python-deps lsps
+must-have-deps: initialize n miniconda rust go nvim fzf python-deps lsps
 nice-to-have-deps: rust-utils reredirect colorscripts lf cheat
 
 configall: config config-optional
 config: config-zsh config-git config-tmux config-vim
 config-optional: config-kitty
 
-clean: clean-vim clean-zsh clean-git clean-miniconda clean-cheat clean-kitty clean-tmux clean-fzf clean-go clean-nvm clean-local clean-rust
+clean: clean-vim clean-zsh clean-git clean-miniconda clean-cheat clean-kitty clean-tmux clean-fzf clean-go clean-n clean-local clean-rust
 
 initialize:
 	mkdir -p $(HOME)/.local/share/fonts
@@ -88,11 +88,12 @@ rust-utils:
 	chmod +x $(LOCALBIN)/tldr
 	$(HOME)/.cargo/bin/cargo cache -a
 
-nvm:
-	./setup-nvm
+n:
+	curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n
+	N_PREFIX=$(LOCAL) bash n latest
 
-clean-nvm:
-	rm -rf $(HOME)/.nvm || echo "Nothing to clean for nvm"
+clean-n:
+	rm -rf $(LOCAL)/n $(LOCALBIN)/node $(LOCALBIN)/npm $(LOCALBIN)/corepack $(LOCALBIN)/npx
 
 reredirect:
 	git clone https://github.com/jerome-pouiller/reredirect/ /tmp/reredirect

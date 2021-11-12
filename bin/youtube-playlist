@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
 RANDOM_IMAGE=$(find ${HOME}/Pictures/wallpapers -name "*.jpg" |shuf -n1)
-PLAYLIST_SELECT=$(cd ${HOME}/Music/playlists && rg -L youtube | ${HOME}/opt/bin/fzf --sync | cut -d, -f2)
-mpv --external-file=${RANDOM_IMAGE} --image-display-duration=inf --ytdl-format=bestaudio/best --vid=1 ${PLAYLIST_SELECT}
+PLAYLIST_SELECT=$(cat ${HOME}/Music/playlists/youtube | rofi -dmenu | cut -d, -f2)
+# mpv --no-config --script-opts=ytdl_hook-ytdl_path=yt-dlp --msg-level=all=no,ytdl_hook=trace --external-file=${RANDOM_IMAGE} --image-display-duration=inf --ytdl-format=bestaudio/best --vid=1 ${PLAYLIST_SELECT}
+mpv --no-config --script-opts=ytdl_hook-ytdl_path=yt-dlp --msg-level=all=no,ytdl_hook=trace --ytdl-format="bestvideo[height<=720]+bestaudio/best[height<=720]" ${PLAYLIST_SELECT}
