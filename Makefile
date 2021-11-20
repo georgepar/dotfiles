@@ -116,11 +116,9 @@ miniconda:
 	wget https://repo.anaconda.com/miniconda/Miniconda3-py38_$(MINICONDA_VERSION)-Linux-x86_64.sh -O miniconda.sh
 	bash miniconda.sh -b -p $(LOCAL)/miniconda3
 	rm miniconda.sh
-	ln -s $(PWD)/flake8 $(DOTCONFIG)/flake8
 
 clean-miniconda:
 	rm -rf $(LOCAL)/miniconda3 || echo "Nothing to clean for miniconda"
-	rm $(DOTCONFIG)/flake8 || echo "Nothing to clean for flake8"
 
 python-deps:
 	$(LOCAL)/miniconda3/bin/pip install -Ur requirements.txt
