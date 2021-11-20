@@ -34,4 +34,4 @@ run compton --shadow-exclude '!focused'
 run blueman-applet
 run volumeicon
 
-# setxkbmap "us,gr" -variant ",simple" -option "grp:alt_shift_toggle"
+setxkbmap "us,gr" -variant ",simple" -option "grp:alt_shift_toggle"

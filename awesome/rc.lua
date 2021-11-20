@@ -582,6 +582,15 @@ clientkeys =
         {description = "close", group = "hotkeys"}
     ),
     awful.key(
+        {modkey, "Control"},
+        "q",
+        function(c)
+            c:kill()
+        end,
+        {description = "close", group = "hotkeys"}
+    ),
+
+    awful.key(
         {modkey, "Shift"},
         "space",
         awful.client.floating.toggle,
