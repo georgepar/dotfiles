@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+mkdir -p ~/.local/share/nvim/site/pack/packer/start/
+
+export PYTHONPATH=${HOME}/opt/miniconda3/lib/python3.8/site-packages/
+NVIM_RUNNING_FIRST_TIME_SETUP=true nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'

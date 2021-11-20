@@ -1,0 +1,22 @@
+account georgepar.91@gmail.com
+host smtp.gmail.com
+port 587
+from georgepar.91@gmail.com
+user georgepar.91@gmail.com
+passwordeval "pass georgepar.91@gmail.com"
+auth on
+tls on
+tls_trust_file	/etc/ssl/certs/ca-certificates.crt
+logfile /home/geopar/.config/msmtp/msmtp.log
+
+
+
+account athena
+host smtp.office365.com
+port 587
+from g.paraskevopoulos@athenarc.gr
+user g.paraskevopoulos@athenarc.gr
+passwordeval "pass show muw/g.paraskevopoulos@athenarc.gr"
+
+# End profile
+

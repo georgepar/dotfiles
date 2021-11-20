@@ -1,0 +1,51 @@
+IMAPStore gmail-remote
+Host imap.gmail.com
+Port 993
+User georgepar.91@gmail.com
+PassCmd "pass show muw/georgepar.91@gmail.com"
+AuthMechs LOGIN
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+MaildirStore gmail-local
+Subfolders Verbatim
+Path ~/.local/share/mail/gmail/
+Inbox ~/.local/share/mail/gmail/INBOX
+
+Channel gmail
+Expunge Both
+Far  :gmail-remote:
+Near :gmail-local:
+Patterns * !"[Gmail]/All Mail"
+Create Both
+SyncState *
+MaxMessages 0
+ExpireUnread no
+# End profile
+
+
+IMAPStore athena-remote
+Host outlook.office365.com
+Port 993
+User g.paraskevopoulos@athenarc.gr
+PassCmd "pass show muw/g.paraskevopoulos@athenarc.gr"
+AuthMechs LOGIN
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+MaildirStore athena-local
+Subfolders Verbatim
+Path ~/.local/share/mail/athena/
+Inbox ~/.local/share/mail/athena/INBOX
+
+Channel athena
+Expunge Both
+Far  :athena-remote:
+Near :athena-local:
+Patterns * !"[Gmail]/All Mail"
+Create Both
+SyncState *
+MaxMessages 0
+ExpireUnread no
+# End profile
+
