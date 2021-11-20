@@ -15,11 +15,10 @@ system-deps: basic-system-deps extra-system-deps
 must-have-deps: initialize n miniconda rust go nvim fzf python-deps lsps
 nice-to-have-deps: rust-utils reredirect colorscripts lf cheat
 
-configall: config config-optional
+configall: config
 config: config-zsh config-git config-tmux config-vim
-config-optional: config-kitty
 
-clean: clean-vim clean-zsh clean-git clean-miniconda clean-cheat clean-kitty clean-tmux clean-fzf clean-go clean-n clean-local clean-rust
+clean: clean-vim clean-zsh clean-git clean-miniconda clean-cheat clean-tmux clean-fzf clean-go clean-n clean-local clean-rust
 
 initialize:
 	mkdir -p $(HOME)/.local/share/fonts
@@ -89,8 +88,8 @@ rust-utils:
 	$(HOME)/.cargo/bin/cargo cache -a
 
 n:
-	curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n
-	N_PREFIX=$(LOCAL) bash n latest
+	curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o $(LOCALBIN)/n
+	N_PREFIX=$(LOCAL) bash $(LOCALBIN)/n latest
 
 clean-n:
 	rm -rf $(LOCAL)/n $(LOCALBIN)/node $(LOCALBIN)/npm $(LOCALBIN)/corepack $(LOCALBIN)/npx
@@ -151,15 +150,6 @@ config-git:
 clean-git:
 	rm $(HOME)/.git-templates $(HOME)/.gitconfig || echo "Nothing to clean for git"
 
-
-config-kitty:
-	mkdir -p $(DOTCONFIG)/kitty/
-	ln -s $(PWD)/kitty.conf $(DOTCONFIG)/kitty/kitty.conf
-	git clone --depth 1 git@github.com:dexpota/kitty-themes.git $(DOTCONFIG)/kitty/kitty-themes
-	ln -s $(DOTCONFIG)/kitty/kitty-themes/themes/Dracula.conf $(DOTCONFIG)/kitty/theme.conf
-
-clean-kitty:
-	rm -rf $(DOTCONFIG)/kitty || echo "Nothing to clean for kitty"
 
 config-vim:
 	./setup-vim
