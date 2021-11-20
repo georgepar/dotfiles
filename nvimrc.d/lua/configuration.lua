@@ -778,7 +778,7 @@ M.treesitter = function()
 		autopairs = {
 			enable = true,
 		},
-		indent = { enable = true },
+		indent = { enable = false },
 		tree_docs = { enable = true },
 		autotag = {
 			enable = true,
