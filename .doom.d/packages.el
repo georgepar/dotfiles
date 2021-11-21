@@ -74,7 +74,6 @@
 
 (use-package mu4e-config
   :after mu4e
-  :config (mu4e t)
   :load-path "~/.config/mu4e")
 
 (package! mu4e-marker-icons)
