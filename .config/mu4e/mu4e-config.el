@@ -29,13 +29,5 @@
                (expand-file-name "mu4e/accounts" (or (getenv "XDG_CONFIG_HOME") "~/.config")) t "\.el$" nil))
   (load file))
 
-
-(setq mu4e-update-interval (* 5 60))  ; update every 5 seconds
-(setq mu4e-maildir-shortcuts
-      '( (:maildir "/gmail/INBOX" :key ?g)
-         (:maildir "/athena/INBOX" :key ?a)))
-
-(mu4e t)
-
 (provide 'mu4e-config)
 ;;; mu4e-config.el ends here

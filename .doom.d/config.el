@@ -282,4 +282,10 @@
 
 (setq org-latex-pdf-process '("latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
 
-(setq mu4e-marker-icons-mode 1)
+(setq
+ mu4e-marker-icons-mode 1
+ mu4e-maildir-shortcuts
+   '( (:maildir "/gmail/INBOX" :key ?g)
+      (:maildir "/athena/INBOX" :key ?a)))
+
+(mu4e t)
