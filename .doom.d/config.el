@@ -2,8 +2,11 @@
 
 ;; https://tecosaur.github.io/emacs-config/config.html
 
+(require 'lsp-mode)
+
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
+
 (setq user-full-name "Giorgos Paraskevopoulos"
       user-mail-address "georgepar.91@gmail.com")
 
@@ -201,7 +204,7 @@
   ;; setup export processor; default csl/citeproc-el, with biblatex for latex
   (setq org-cite-export-processors
         '((t csl "association-for-computational-linguistics.csl"))))
-           
+
 
 (use-package! oc-csl
   :after oc
