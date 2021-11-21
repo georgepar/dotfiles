@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Spotify Controls
+Comment=Control spotify playback
+Exec=bash -c 'spotify-control'
+Icon=/home/geopar/Pictures/icons/spotify2.png
+Terminal=true
+Type=Application
+Categories=Music;

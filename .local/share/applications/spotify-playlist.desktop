@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Spotify Playlist
+Comment=Play spotify playlists
+Exec=bash -c 'spotify-playlist'
+Icon=/home/geopar/Pictures/icons/spotify1.png
+Terminal=true
+Type=Application
+Categories=Music;

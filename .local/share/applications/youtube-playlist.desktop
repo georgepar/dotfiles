@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Youtube Playlist
+Comment=Play youtube playlists
+Exec=alacritty --class "mpv-youtube" -e "youtube-playlist"
+Icon=/home/geopar/Pictures/icons/youtube.png
+Terminal=false
+Type=Application
+Categories=Music;
