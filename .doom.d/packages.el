@@ -57,8 +57,6 @@
 (package! graphviz-dot-mode)
 (package! calfw)
 (package! calfw-org)
-(package! calfw-ical)
-;; (package! ivy-posframe)
 
 (package! magit-delta :recipe (:host github :repo "dandavison/magit-delta"))
 
@@ -73,11 +71,7 @@
 (package! org-cite-csl-activate :recipe (:host github :repo "andras-simonyi/org-cite-csl-activate"))
 
 (use-package mu4e-config
-  :after mu4e
-  :load-path "~/.config/mu4e")
+ :after mu4e
+ :load-path "~/.config/mu4e")
 
 (package! mu4e-marker-icons)
-
-
-(package! bbdb)
-(package! bbdb-vcard)

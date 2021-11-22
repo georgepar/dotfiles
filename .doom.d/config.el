@@ -1,11 +1,10 @@
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+; ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-;; https://tecosaur.github.io/emacs-config/config.html
+; ;; https://tecosaur.github.io/emacs-config/config.html
 
-(require 'lsp-mode)
 
-;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets.
+; ;; Some functionality uses this to identify you, e.g. GPG configuration, email
+; ;; clients, file templates and snippets.
 
 (setq user-full-name "Giorgos Paraskevopoulos"
       user-mail-address "georgepar.91@gmail.com")
@@ -106,18 +105,19 @@
 (setq ispell-dictionary "en-custom")
 (setq +zen-text-scale 0.6)
 
+(require 'lsp-mode)
 (lsp-register-client
-    (make-lsp-client :new-connection (lsp-tramp-connection "pyright-langserver")
-                     :major-modes '(python-mode)
-                     :remote? t
-                     :server-id 'pyright-remote))
+ (make-lsp-client :new-connection (lsp-tramp-connection "pyright-langserver")
+                  :major-modes '(python-mode)
+                  :remote? t
+                  :server-id 'pyright-remote))
 
 
 (lsp-register-client
-    (make-lsp-client :new-connection (lsp-tramp-connection "bash-language-server")
-                     :major-modes '(shell-script-mode)
-                     :remote? t
-                     :server-id 'bash-remote))
+ (make-lsp-client :new-connection (lsp-tramp-connection "bash-language-server")
+                  :major-modes '(shell-script-mode)
+                  :remote? t
+                  :server-id 'bash-remote))
 
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -170,14 +170,12 @@
 (use-package! company-graphviz-dot
  :after graphviz-dot-mode)
 
-(org-babel-do-load-languages)
-'org-babel-load-languages
-'((dot . t)) ; this line activates dot
+; (org-babel-do-load-languages 'org-babel-load-languages
+; '((dot . t))) ; this line activates dot
 
 
 (use-package! citar
-  ;; :when (featurep! :completion ivy--default)
-
+   :when (featurep! :completion vertico)
    :custom
    (citar-bibliography '("~/bib/references/refs.bib"))
    (org-cite-insert-processor 'citar)
@@ -288,5 +286,5 @@
 (setq mu4e-marker-icons-mode 1)
 
 (setq mu4e-maildir-shortcuts
-      '( (:maildir "/gmail/INBOX" :key ?g)
-         (:maildir "/athena/INBOX" :key ?a)))
+ '( (:maildir "/gmail/INBOX" :key ?g)
+    (:maildir "/athena/INBOX" :key ?a)))
