@@ -16,7 +16,6 @@ if (command -v  xfce4-power-manager && ! pgrep xfce4-power-man) ; then
     xfce4-power-manager &
 fi
 
-
 run gxkb
 run nm-applet
 run light-locker
@@ -26,12 +25,6 @@ run thunar --daemon
 ## The following are not included in minimal edition by default
 ## but autorun.sh will pick them up if you install them
 
-if (command -v system-config-printer-applet && ! pgrep applet.py ); then
-  system-config-printer-applet &
-fi
-
-run compton --shadow-exclude '!focused'
 run blueman-applet
 run volumeicon
-
-setxkbmap "us,gr" -variant ",simple" -option "grp:alt_shift_toggle"
+sleep 5s && setxkbmap "us,gr" -variant ",simple" -option "grp:alt_shift_toggle"
