@@ -22,3 +22,8 @@ export NVIM_TUI_ENABLE_TRUE_COLOR=1
 export FZF_DEFAULT_COMMAND=fd
 export SKIM_DEFAULT_COMMAND=fd
 
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools

@@ -27,4 +27,5 @@ run thunar --daemon
 
 run blueman-applet
 run volumeicon
-sleep 5s && setxkbmap "us,gr" -variant ",simple" -option "grp:alt_shift_toggle"
+run xsettingsd
+# sleep 5s && setxkbmap "us,gr" -variant ",simple" -option "grp:alt_shift_toggle"
