@@ -75,3 +75,5 @@
  :load-path "~/.config/mu4e")
 
 (package! mu4e-marker-icons)
+(package! tree-sitter)
+(package! tree-sitter-langs)

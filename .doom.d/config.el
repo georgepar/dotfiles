@@ -288,3 +288,9 @@
 (setq mu4e-maildir-shortcuts
  '( (:maildir "/gmail/INBOX" :key ?g)
     (:maildir "/athena/INBOX" :key ?a)))
+
+(use-package! tree-sitter
+  :config
+  (require 'tree-sitter-langs)
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-mode))
