@@ -58,7 +58,7 @@ basic-system-deps:
 	pacman -S git curl wget base base-devel cmake unzip tmux awesome xterm stow
 
 extra-system-deps:
-	pacman -S git-lfs imagemagick alacritty ffmpeg sox isync msmtp pass emacs
+	pacman -S git-lfs imagemagick alacritty ffmpeg sox isync msmtp pass emacs lazygit
 	yay -S direnv mu mu-wizard-git
 
 doom-emacs:

@@ -12,6 +12,8 @@ local wibox = require("wibox")
 local naughty = require("naughty")
 local watch = require("awful.widget.watch")
 
+-- local spotify_widget = require("spotifywidget")
+
 local math, string, os = math, string, os
 local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
 
@@ -62,7 +64,7 @@ theme.widget_temp = theme.dir .. "/icons/temp.png"
 theme.widget_net = theme.dir .. "/icons/net.png"
 theme.widget_hdd = theme.dir .. "/icons/hdd.png"
 theme.widget_music = theme.dir .. "/icons/note.png"
-theme.widget_music_on = theme.dir .. "/icons/note.png"
+theme.widget_music_on = theme.dir .. "/icons/play.png"
 theme.widget_music_pause = theme.dir .. "/icons/pause.png"
 theme.widget_music_stop = theme.dir .. "/icons/stop.png"
 theme.widget_vol = theme.dir .. "/icons/vol.png"
@@ -77,24 +79,6 @@ theme.widget_weather = theme.dir .. "/icons/dish.png"
 theme.tasklist_plain_task_name = true
 theme.tasklist_disable_icon = true
 theme.useless_gap = 5
-theme.titlebar_close_button_focus = theme.dir .. "/icons/titlebar/close_focus.png"
-theme.titlebar_close_button_normal = theme.dir .. "/icons/titlebar/close_normal.png"
-theme.titlebar_ontop_button_focus_active = theme.dir .. "/icons/titlebar/ontop_focus_active.png"
-theme.titlebar_ontop_button_normal_active = theme.dir .. "/icons/titlebar/ontop_normal_active.png"
-theme.titlebar_ontop_button_focus_inactive = theme.dir .. "/icons/titlebar/ontop_focus_inactive.png"
-theme.titlebar_ontop_button_normal_inactive = theme.dir .. "/icons/titlebar/ontop_normal_inactive.png"
-theme.titlebar_sticky_button_focus_active = theme.dir .. "/icons/titlebar/sticky_focus_active.png"
-theme.titlebar_sticky_button_normal_active = theme.dir .. "/icons/titlebar/sticky_normal_active.png"
-theme.titlebar_sticky_button_focus_inactive = theme.dir .. "/icons/titlebar/sticky_focus_inactive.png"
-theme.titlebar_sticky_button_normal_inactive = theme.dir .. "/icons/titlebar/sticky_normal_inactive.png"
-theme.titlebar_floating_button_focus_active = theme.dir .. "/icons/titlebar/floating_focus_active.png"
-theme.titlebar_floating_button_normal_active = theme.dir .. "/icons/titlebar/floating_normal_active.png"
-theme.titlebar_floating_button_focus_inactive = theme.dir .. "/icons/titlebar/floating_focus_inactive.png"
-theme.titlebar_floating_button_normal_inactive = theme.dir .. "/icons/titlebar/floating_normal_inactive.png"
-theme.titlebar_maximized_button_focus_active = theme.dir .. "/icons/titlebar/maximized_focus_active.png"
-theme.titlebar_maximized_button_normal_active = theme.dir .. "/icons/titlebar/maximized_normal_active.png"
-theme.titlebar_maximized_button_focus_inactive = theme.dir .. "/icons/titlebar/maximized_focus_inactive.png"
-theme.titlebar_maximized_button_normal_inactive = theme.dir .. "/icons/titlebar/maximized_normal_inactive.png"
 theme.bg_systray = "#22242F"
 
 local markup = lain.util.markup
@@ -139,9 +123,10 @@ function theme.powerline_rl(cr, width, height)
 	cr:close_path()
 end
 
-local function pl(widget, bgcolor, padding)
-	return wibox.container.background(wibox.container.margin(widget, 16, 16), bgcolor, theme.powerline_rl)
-end
+theme.volume = lain.widget.alsabar({
+	--togglechannel = "IEC958,3",
+	notification_preset = { font = theme.font, fg = theme.fg_blue },
+})
 
 function theme.at_screen_connect(s)
 	-- Quake application
@@ -180,15 +165,12 @@ function theme.at_screen_connect(s)
 	-- Create a taglist widget
 	s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.all, awful.util.taglist_buttons)
 
-	-- Create the wibox
-	function custom_shape(cr, width, height)
-		gears.shape.rounded_rect(cr, width, height, 15)
-	end
-
 	s.mywibox = awful.wibar({
 		position = "top",
 		screen = s,
-		shape = custom_shape,
+		shape = function(cr, width, height)
+			gears.shape.rounded_rect(cr, width, height, 15)
+		end,
 		height = 28,
 		width = 1880,
 		border_color = "#330033",
@@ -197,19 +179,19 @@ function theme.at_screen_connect(s)
 		fg = theme.fg_magenta,
 	})
 
-	tbox_separator = wibox.widget.textbox(" | ")
-
 	-- Add widgets to the wibox
 	s.mywibox:setup({
 		layout = wibox.layout.align.horizontal,
 		{ -- Left widgets
 			layout = wibox.layout.fixed.horizontal,
-			--spr,
 			s.mytaglist,
 			s.mypromptbox,
-			spr,
 		},
-		wibox.container.background(wibox.container.margin(clock, 525, 8)),
+		{
+
+			layout = wibox.layout.fixed.horizontal,
+			wibox.container.background(wibox.container.margin(clock, 525, 8)),
+		},
 		-- s.mytasklist, -- Middle widget
 		{ -- Right widgets
 			layout = wibox.layout.fixed.horizontal,

@@ -285,6 +285,7 @@ globalkeys = my_table.join(
 	-- awful.key({ modkey }, "l", function () awful.spawn("light-locker-command -l") end,
 	-- {description = "lock screen", group = "hotkeys"}),
 	awful.key({ modkey }, "l", function()
+		-- awful.spawn('rofi -show p -modi p:"~/opt/bin/rofi-power-menu --choices=logout/reboot/shutdown"')
 		awful.spawn('rofi -show p -modi p:"~/opt/bin/rofi-power-menu --choices=lockscreen/logout/reboot/shutdown"')
 	end, {
 		description = "power menu",
@@ -388,24 +389,24 @@ globalkeys = my_table.join(
 	--awful.key({ modkey1 }, "Up",
 	awful.key({}, "XF86AudioRaiseVolume", function()
 		os.execute(string.format("amixer -q set %s 5%%+", beautiful.volume.channel))
-		beautiful.volume.update()
+		-- beautiful.volume.update()
 	end),
 	--awful.key({ modkey1 }, "Down",
 	awful.key({}, "XF86AudioLowerVolume", function()
 		os.execute(string.format("amixer -q set %s 5%%-", beautiful.volume.channel))
-		beautiful.volume.update()
+		-- beautiful.volume.update()
 	end),
 	awful.key({}, "XF86AudioMute", function()
 		os.execute(string.format("amixer -q set %s toggle", beautiful.volume.togglechannel or beautiful.volume.channel))
-		beautiful.volume.update()
+		-- beautiful.volume.update()
 	end),
 	awful.key({ modkey1, "Shift" }, ",", function()
 		os.execute(string.format("amixer -q set %s 100%%", beautiful.volume.channel))
-		beautiful.volume.update()
+		-- beautiful.volume.update()
 	end),
 	awful.key({ modkey1, "Shift" }, "m", function()
 		os.execute(string.format("amixer -q set %s 0%%", beautiful.volume.channel))
-		beautiful.volume.update()
+		-- beautiful.volume.update()
 	end),
 	-- Copy primary to clipboard (terminals to gtk)
 	awful.key({ modkey }, "c", function()

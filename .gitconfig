@@ -6,7 +6,9 @@
 [core]
 	editor = nvim
 [init]
-	templatedir = ~/.git-templates
+    templatedir = ~/.git-templates
+[merge]
+    conflictstyle = diff3
 [alias]
         a = add
         aa = add --all
@@ -57,6 +59,8 @@
 
 [delta]
     features = decorations
+    navigate = true
+    side-by-side = true
 
 [delta "interactive"]
     keep-plus-minus-markers = false

@@ -32,7 +32,7 @@ plugins=(
     colored-man-pages
     command-not-found
     copybuffer
-    copydir
+    # copydir
     copyfile
     direnv
     fancy-ctrl-z
@@ -110,5 +110,8 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+
+alias disable_touchpad="xinput disable $(xinput list | grep Touchpad | perl -ne 'm/.*id=([0-9]+).*/ && print "$1\n"')"
+alias enable_touchpad="xinput enable $(xinput list | grep Touchpad | perl -ne 'm/.*id=([0-9]+).*/ && print "$1\n"')"
 
 # zprof
